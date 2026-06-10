@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Geschichte für die Gegenwart – v6</title>
+<meta name="theme-color" content="#01696f" id="themeColor">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Geschichte+f%C3%BCr+die+Gegenwart%22%2C%22short_name%22%3A%22GfdG%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f5f3ef%22%2C%22theme_color%22%3A%22%2301696f%22%2C%22icons%22%3A%5B%5D%7D">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --c1:#01696f;--c1b:#e0f2f1;--c2:#2e6bb0;--c2b:#e3edf8;
+  --c3:#7a3bb5;--c3b:#ede6f7;--c4:#b05c0e;--c4b:#fdebd0;
+  --c5:#8a1a1a;--c5b:#fce4e4;--c6:#3a5c35;--c6b:#e2eede;
+  --c7:#1a5c8a;--c7b:#dbeaf7;--c8:#5c3a00;--c8b:#f5e8d0;
+  --c9:#2a5c4a;--c9b:#d5ede6;
+  --text:#1e1c18;--muted:#666;--border:#e0ddd8;--bg:#f5f3ef;
+  --today:#c0392b;
+  --font-d:'Cabinet Grotesk',sans-serif;--font-b:'General Sans',sans-serif;
+}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);font-size:10.5px;line-height:1.45;padding:14px 12px 24px}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;gap:5px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.tb-btn{font-family:var(--font-b);font-size:9px;font-weight:700;padding:4px 11px;border-radius:99px;border:1.5px solid #bbb;background:#fff;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tb-btn.active,.tb-btn:hover{background:var(--text);color:#fff;border-color:var(--text)}
+.tb-sep{color:#ccc;font-size:12px}
+
+/* ── HEADER ── */
+.header{text-align:center;margin-bottom:8px}
+.header h1{font-family:var(--font-d);font-size:22px;font-weight:800;letter-spacing:-.4px}
+.header .sub{font-size:10px;color:var(--muted);margin-top:2px}
+.kompetenz-bar{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:7px}
+.kb{font-size:8.5px;font-weight:700;padding:2px 8px;border-radius:99px;cursor:pointer;transition:all .15s}
+.kb.filtered-off{opacity:.35}
+.kb-q{background:#e8f0fc;color:#1a4a9e;border:1px solid #c5d8f5}
+.kb-u{background:#fef3e2;color:#925f0c;border:1px solid #f5dba8}
+.kb-p{background:#f0e8fc;color:#6a2da8;border:1px solid #d5b8f5}
+.kb-h{background:#fee8e8;color:#9a1a1a;border:1px solid #f5bcbc}
+.kb-n{background:#e2f5e8;color:#2a6a3a;border:1px solid #b8dfc2}
+
+/* ── SEARCH ── */
+.search-wrap{max-width:600px;margin:0 auto 10px;position:relative}
+.search-input{width:100%;font-family:var(--font-b);font-size:11px;padding:7px 12px 7px 32px;border:2px solid var(--border);border-radius:99px;background:#fff;outline:none;transition:border .15s}
+.search-input:focus{border-color:var(--c2)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;pointer-events:none;color:#aaa}
+.search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:100;max-height:280px;overflow-y:auto}
+.sr-item{padding:7px 12px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:flex-start;gap:8px}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:#f5f3ef}
+.sr-badge{font-size:8px;font-weight:800;padding:1px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.sr-term{font-size:10px;font-weight:700;color:var(--text)}
+.sr-def{font-size:9px;color:var(--muted);margin-top:1px;line-height:1.35}
+.sr-highlight{background:#fff3a8}
+.search-results.visible{display:block}
+
+/* ── ZEITACHSE ── */
+.zeitachse-wrap{max-width:1080px;margin:6px auto 6px;padding:0 8px}
+.za{position:relative;height:38px;display:flex;align-items:center}
+.za-line{position:absolute;left:0;right:0;top:50%;height:3px;background:linear-gradient(90deg,var(--c1) 0%,var(--c2) 12%,var(--c3) 22%,var(--c4) 34%,var(--c5) 47%,var(--c6) 58%,var(--c7) 68%,var(--c8) 80%,var(--c9) 90%,#888 100%);transform:translateY(-50%);border-radius:2px}
+.za-markers{position:relative;width:100%;display:flex;justify-content:space-between;z-index:1}
+.za-mark{display:flex;flex-direction:column;align-items:center;gap:2px}
+.za-dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2.5px solid #555;flex-shrink:0}
+.za-lbl{font-size:7.5px;font-weight:700;white-space:nowrap;margin-top:2px}
+
+/* ── PROGRESS ── */
+.prog-wrap{max-width:900px;margin:0 auto 10px;text-align:center}
+.prog-label{font-size:8.5px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.prog-dots{display:flex;flex-wrap:wrap;gap:3px;justify-content:center}
+.pdot{width:18px;height:18px;border-radius:50%;border:1.5px solid #bbb;background:#fff;font-size:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;font-weight:700;color:#999;user-select:none}
+.pdot.done{background:var(--text);border-color:var(--text);color:#fff}
+.pdot:hover,.pdot:focus{transform:scale(1.2);outline:2px solid var(--c2)}
+
+/* ── JG HEADER ── */
+.jg-hd{max-width:1080px;margin:14px auto 4px}
+.jg-title{font-family:var(--font-d);font-size:13px;font-weight:800;color:#fff;padding:5px 14px;border-radius:8px;display:inline-block}
+.jg-j1{background:linear-gradient(90deg,var(--c1),var(--c2))}
+.jg-j12{background:linear-gradient(90deg,var(--c5),var(--c6))}
+.jg-j2{background:linear-gradient(90deg,var(--c8),var(--c9))}
+
+/* ── BLOCK ── */
+.block{max-width:1080px;margin:0 auto 10px;border-radius:12px;border:1px solid var(--border);background:#fff;overflow:hidden;transition:opacity .2s}
+.block.kompetenz-hidden{opacity:.2;pointer-events:none}
+.bh{display:flex;align-items:flex-start;gap:10px;padding:8px 14px}
+.bh-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.bh-text .btitle{font-family:var(--font-d);font-size:12.5px;font-weight:800}
+.bh-text .bepoche{font-size:9px;font-weight:600;opacity:.7;margin-left:6px}
+.bh-text .bleitsatz{font-size:9px;font-style:italic;opacity:.85;margin-top:2px;line-height:1.35}
+
+/* ZUSAMMENFASSUNG Toggle */
+.block-summary-toggle{font-size:8px;font-weight:700;background:rgba(0,0,0,.06);border:none;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px;transition:all .15s}
+.block-summary-toggle:hover{background:rgba(0,0,0,.12)}
+.block-summary{display:none;padding:8px 14px 10px;border-top:1px dashed var(--border);background:#fafaf7}
+.block-summary.open{display:block}
+.bs-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.bs-list li{font-size:9px;line-height:1.45;display:flex;gap:6px}
+.bs-list li::before{content:"▸";flex-shrink:0;opacity:.5}
+.bs-keywords{margin-top:6px;font-size:8.5px;font-weight:700;color:var(--muted)}
+
+/* ── MODULE GRID ── */
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border-top:1px solid var(--border)}
+
+/* ── MODULE CARD ── */
+.mc{background:#fff;padding:0;display:flex;flex-direction:column;cursor:pointer;transition:background .12s;position:relative}
+.mc:hover,.mc:focus-within{background:#faf9f7;outline:none}
+.mc.kompetenz-hidden{opacity:.15;pointer-events:none}
+.mc-top{padding:8px 10px 6px}
+.mc-badge{display:inline-flex;align-items:center;gap:4px;font-size:8.5px;font-weight:800;padding:1.5px 6px;border-radius:5px;margin-bottom:3px;width:fit-content}
+.mc-title{font-size:10.5px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.mc-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.methchip{font-size:7.5px;font-weight:600;background:#f0eeea;padding:1px 5px;border-radius:3px;display:flex;align-items:center;gap:2px;border:1px solid #e8e5e0;white-space:nowrap}
+.kompchip{font-size:7.5px;font-weight:700;padding:1px 6px;border-radius:4px;display:flex;align-items:center;gap:2px;width:fit-content}
+.heute-chip{font-size:7.5px;font-weight:700;color:var(--today);background:#fdf0ef;border:1px solid #f5c6c4;padding:1px 6px;border-radius:4px;display:flex;align-items:center;gap:2px;width:fit-content}
+.expand-hint{font-size:7.5px;color:#bbb;text-align:right;padding:0 8px 5px;margin-top:auto;user-select:none}
+.mc.open .expand-hint{color:#888}
+
+/* ── DETAIL PANEL ── */
+.mc-detail{display:none;border-top:1.5px dashed var(--border);padding:10px 12px 12px;background:#fdfcfa;gap:10px;flex-direction:column}
+.mc.open .mc-detail{display:flex}
+.dp-section{display:flex;flex-direction:column;gap:4px}
+.dp-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:1px}
+.dp-ziel-item{display:flex;gap:5px;margin-bottom:3px;font-size:9.5px;line-height:1.45}
+.dp-ziel-item::before{content:"✓";font-size:8px;color:#4caf50;flex-shrink:0;margin-top:1px}
+.dp-vocab{display:flex;flex-wrap:wrap;gap:4px}
+.vocab-pill{font-size:8.5px;font-weight:600;padding:2px 7px;border-radius:99px;border:1.5px solid;cursor:pointer;position:relative;transition:all .12s}
+.vocab-pill:hover,.vocab-pill:focus{filter:brightness(.9);outline:none}
+.dp-desc{font-size:9px;color:var(--muted);line-height:1.4}
+.dp-link{font-size:8.5px;font-weight:600;color:#2e6bb0;text-decoration:none;background:#e3edf8;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;width:fit-content;margin-top:2px}
+.dp-link:hover,.dp-link:focus{text-decoration:underline;outline:2px solid var(--c2)}
+
+/* ── TOOLTIP ── */
+.tooltip-box{position:fixed;background:#222;color:#fff;font-size:9px;line-height:1.4;padding:6px 9px;border-radius:7px;max-width:220px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.tooltip-box.visible{opacity:1}
+
+/* ── META BLOCK ── */
+.meta-block{max-width:1080px;margin:0 auto 10px;background:#fff;border:1.5px dashed #aaa;border-radius:12px;padding:10px 14px}
+.meta-inner{display:flex;gap:10px;flex-wrap:wrap}
+.meta-icon{font-size:20px;line-height:1}
+.meta-body{flex:1;min-width:200px}
+.meta-title{font-family:var(--font-d);font-size:12px;font-weight:800;color:#444}
+.meta-sub{font-size:8.5px;color:var(--muted);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:8.5px;font-weight:600;background:#f0eeea;color:#444;padding:2px 7px;border-radius:99px;border:1px solid #ddd}
+.qr-section{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.qr-item{display:flex;flex-direction:column;align-items:center;gap:3px;background:#f8f7f4;border:1px solid #ddd;border-radius:8px;padding:6px 10px;font-size:8px;font-weight:600;color:#444;text-align:center}
+.qr-box{width:52px;height:52px;background:#fff;border:1px solid #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* ── QUIZ MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:500px;width:90%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.modal-close{position:absolute;top:12px;right:14px;font-size:18px;cursor:pointer;background:none;border:none;color:#888;line-height:1}
+.modal-close:hover,.modal-close:focus{color:#222;outline:2px solid var(--c2)}
+.modal h2{font-family:var(--font-d);font-size:18px;font-weight:800;margin-bottom:6px}
+.modal .modal-sub{font-size:9.5px;color:var(--muted);margin-bottom:16px}
+/* Quiz card */
+.quiz-card{text-align:center}
+.quiz-progress{font-size:9px;color:var(--muted);margin-bottom:12px}
+.quiz-term{font-family:var(--font-d);font-size:20px;font-weight:800;margin-bottom:8px;line-height:1.2}
+.quiz-modul{font-size:8.5px;color:var(--muted);margin-bottom:16px}
+.quiz-def{font-size:11px;line-height:1.5;padding:12px 16px;background:#f5f3ef;border-radius:8px;margin-bottom:14px;display:none;min-height:48px}
+.quiz-def.visible{display:block}
+.quiz-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.q-btn{font-family:var(--font-b);font-size:10px;font-weight:700;padding:7px 16px;border-radius:99px;border:2px solid;cursor:pointer;transition:all .15s}
+.q-btn-show{background:#fff;border-color:#bbb;color:#444}
+.q-btn-show:hover{background:#f0eeea}
+.q-btn-ok{background:#e8f5e9;border-color:#66bb6a;color:#2a6a3a}
+.q-btn-ok:hover{background:#c8e6c9}
+.q-btn-miss{background:#fce4e4;border-color:#ef9a9a;color:#8a1a1a}
+.q-btn-miss:hover{background:#ffcdd2}
+.q-btn-next{background:var(--text);border-color:var(--text);color:#fff}
+.q-btn-next:hover{opacity:.85}
+.quiz-stats{font-size:10px;margin-top:12px;color:var(--muted)}
+.quiz-filter{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.qf-chip{font-size:8.5px;font-weight:700;padding:3px 10px;border-radius:99px;border:1.5px solid;cursor:pointer;transition:all .15s}
+.qf-chip.active{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* ── RED THREAD MODAL ── */
+.rt-wrap{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.rt-node{background:#f5f3ef;border-left:4px solid;border-radius:0 8px 8px 0;padding:8px 12px;cursor:pointer;transition:all .15s}
+.rt-node:hover{background:#ebebeb}
+.rt-badge{font-size:8.5px;font-weight:800;margin-bottom:2px}
+.rt-title{font-size:10px;font-weight:700;line-height:1.3}
+.rt-arrow{text-align:center;font-size:14px;color:#bbb;margin:2px 0}
+.rt-arrow-label{font-size:8px;color:var(--muted);margin-top:-2px;margin-bottom:2px}
+.rt-chain-selector{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.rt-cs-btn{font-size:8.5px;font-weight:700;padding:3px 10px;border-radius:99px;border:1.5px solid #bbb;background:#fff;cursor:pointer;transition:all .12s}
+.rt-cs-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* ── GLOSSARY PAGE ── */
+.glossary-page{display:none;max-width:1080px;margin:0 auto}
+.glossary-page.open{display:block}
+.glossary-search{width:100%;font-family:var(--font-b);font-size:11px;padding:7px 12px;border:2px solid var(--border);border-radius:99px;background:#fff;outline:none;margin-bottom:10px}
+.glossary-search:focus{border-color:var(--c2)}
+.gl-alpha{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px}
+.gl-alpha-btn{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;border:1px solid #bbb;background:#fff;cursor:pointer;transition:all .12s}
+.gl-alpha-btn:hover,.gl-alpha-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+.gl-letter-group{margin-bottom:12px}
+.gl-letter{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--muted);padding:4px 0;border-bottom:2px solid var(--border);margin-bottom:6px}
+.gl-item{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #f0eeea;align-items:flex-start}
+.gl-item-term{font-size:10px;font-weight:700;min-width:180px;flex-shrink:0}
+.gl-item-badge{font-size:7.5px;font-weight:800;padding:1px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.gl-item-def{font-size:9.5px;color:var(--muted);line-height:1.4;flex:1}
+.gl-hidden{display:none}
+
+/* ── TEACHER MODE MODAL ── */
+.teacher-controls{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.tc-section{background:#f5f3ef;border-radius:8px;padding:10px}
+.tc-label{font-size:8.5px;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.tc-row{display:flex;gap:6px;align-items:center;margin-bottom:4px}
+.tc-row label{font-size:9px;min-width:80px;font-weight:600}
+.tc-input{font-family:var(--font-b);font-size:9.5px;padding:4px 8px;border:1.5px solid var(--border);border-radius:5px;flex:1;background:#fff}
+.tc-input:focus{outline:none;border-color:var(--c2)}
+.tc-save-btn{font-family:var(--font-b);font-size:9px;font-weight:700;padding:4px 12px;border-radius:99px;border:none;background:var(--c2);color:#fff;cursor:pointer}
+.tc-save-btn:hover{opacity:.85}
+.tc-reset-btn{font-family:var(--font-b);font-size:9px;padding:4px 10px;border-radius:99px;border:1.5px solid #bbb;background:#fff;cursor:pointer;color:#666}
+
+/* ── PRINT ── */
+@media print{
+  body{background:#fff;font-size:9px}
+  .topbar,.prog-wrap,.search-wrap,.modal-overlay,.tooltip-box,.expand-hint,.heute-chip,.kompchip,.tb-btn,.quiz-wrap{display:none!important}
+  .mc-detail{display:none!important}
+  .mc{cursor:default;page-break-inside:avoid}
+  *{color:#000!important;background:#fff!important;border-color:#ccc!important}
+  .block,.meta-block{border:1px solid #ccc;page-break-inside:avoid}
+  .print-vocab-list{display:block!important}
+  .glossary-page{display:none!important}
+}
+body.print-mode{background:#fff}
+body.print-mode .mc-detail,body.print-mode .expand-hint,body.print-mode .topbar,body.print-mode .prog-wrap,body.print-mode .search-wrap,body.print-mode .heute-chip,body.print-mode .kompchip,body.print-mode .modal-overlay,body.print-mode .tooltip-box{display:none!important}
+body.print-mode *{color:#000!important;background:#fff!important;border-color:#ccc!important}
+body.print-mode .print-vocab-list{display:block!important}
+.print-vocab-list{display:none;max-width:1080px;margin:20px auto 0;padding:16px;border:1px solid #ccc;border-radius:8px}
+.pv-title{font-family:var(--font-d);font-size:14px;font-weight:800;margin-bottom:10px}
+.pv-grid{columns:2;gap:16px}
+.pv-item{break-inside:avoid;margin-bottom:5px}
+.pv-term{font-size:9px;font-weight:700}
+.pv-mod{font-size:8px;color:#666}
+.pv-def{font-size:8.5px;color:#333;line-height:1.35}
+
+/* ── MAIN VIEW CONTAINER ── */
+.view-main{display:block}
+.view-main.hidden{display:none}
+.view-glossary{display:none}
+.view-glossary.open{display:block}
+
+/* ── DARK MODE ── */
+body.dark{
+  --bg:#1a1917;--text:#e8e5df;--muted:#999;--border:#333;
+  --c1b:#0a2c2e;--c2b:#0d2340;--c3b:#1e1030;--c4b:#2a1800;
+  --c5b:#2a0a0a;--c6b:#0d1e0a;--c7b:#091e30;--c8b:#1e1200;--c9b:#071a12;
+}
+body.dark .mc,body.dark .block{background:#222;border-color:#333}
+body.dark .mc:hover,body.dark .mc:focus-within{background:#282828}
+body.dark .mc-detail,body.dark .block-summary{background:#1e1e1c}
+body.dark .search-input,body.dark .glossary-search,body.dark .tc-input{background:#222;color:#e8e5df;border-color:#444}
+body.dark .search-results{background:#222;border-color:#444}
+body.dark .sr-item:hover{background:#2a2a28}
+body.dark .methchip{background:#2a2826;border-color:#3a3835;color:#ccc}
+body.dark .modal{background:#222;color:#e8e5df}
+body.dark .tc-section{background:#1a1917}
+body.dark .rt-node{background:#282826}
+body.dark .rt-node:hover{background:#323230}
+body.dark .pdot{background:#222;border-color:#555;color:#999}
+body.dark .pdot.done{background:var(--c1);border-color:var(--c1);color:#fff}
+body.dark .tb-btn{background:#222;border-color:#555;color:#ccc}
+body.dark .tb-btn.active,body.dark .tb-btn:hover{background:#e8e5df;color:#1a1917;border-color:#e8e5df}
+body.dark .chip{background:#2a2826;color:#ccc;border-color:#444}
+body.dark .meta-block{background:#222;border-color:#555}
+body.dark .gl-item{border-color:#2a2826}
+body.dark .qr-box{background:#fff}
+body.dark .tooltip-box{background:#e8e5df;color:#1a1917}
+
+/* ── MODULE CONNECTIONS ── */
+.mc-connections{display:none;flex-wrap:wrap;gap:4px;padding:6px 10px 8px;border-top:1px solid var(--border);background:rgba(0,0,0,.02)}
+.mc.open .mc-connections{display:flex}
+.conn-label{font-size:7.5px;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:.5px;width:100%;margin-bottom:2px}
+.conn-chip{font-size:8px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--c2b);color:var(--c2);border:1px solid;cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:3px}
+.conn-chip:hover,.conn-chip:focus{filter:brightness(.9);outline:2px solid var(--c2);outline-offset:1px}
+.kogland-link{font-size:8px;font-weight:700;color:var(--c1);background:var(--c1b);border:1px solid;border-color:var(--c1);padding:2px 8px;border-radius:99px;text-decoration:none;display:inline-flex;align-items:center;gap:3px;transition:all .12s}
+.kogland-link:hover,.kogland-link:focus{filter:brightness(.9);outline:2px solid var(--c1)}
+
+/* ── VORWORT ── */
+.vorwort-block{max-width:1080px;margin:0 auto 10px;background:linear-gradient(135deg,var(--c1b),var(--c2b));border:1.5px solid var(--c1);border-radius:12px;padding:12px 14px}
+.vorwort-inner{display:flex;gap:10px;align-items:flex-start;position:relative}
+.vorwort-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.vorwort-text{flex:1}
+.vorwort-text p{font-size:9.5px;line-height:1.55;color:var(--text);margin-bottom:4px}
+.vorwort-text p:last-child{margin-bottom:0}
+.vorwort-close{position:absolute;top:0;right:0;background:none;border:none;font-size:16px;cursor:pointer;color:#aaa;line-height:1;padding:2px 4px}
+.vorwort-close:hover{color:var(--text)}
+body.dark .vorwort-block{border-color:var(--c1);background:linear-gradient(135deg,#0a2c2e,#0d2340)}
+body.dark .vorwort-text p{color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="topbar" role="toolbar" aria-label="Ansichten und Aktionen">
+  <button class="tb-btn active" id="btn-digital" onclick="setView('digital')" aria-pressed="true">🖥 Beamer</button>
+  <button class="tb-btn" id="btn-print" onclick="setView('print')" aria-pressed="false">🖨 Druck S/W</button>
+  <button class="tb-btn" id="btn-glossary" onclick="setView('glossary')" aria-pressed="false">📖 Vokabelliste</button>
+  <span class="tb-sep" aria-hidden="true">|</span>
+  <button class="tb-btn" onclick="openQuiz()" aria-label="Vokabel-Quiz starten">🃏 Quiz</button>
+  <button class="tb-btn" onclick="openRedThread()" aria-label="Roten Faden anzeigen">🧵 Roter Faden</button>
+  <button class="tb-btn" onclick="openTeacherMode()" aria-label="Lehrkraft-Modus öffnen">🔐 Lehrkraft</button>
+  <span class="tb-sep" aria-hidden="true">|</span>
+  <button class="tb-btn" onclick="openAll()">▸ Alle öffnen</button>
+  <button class="tb-btn" onclick="▾ Alle schließen</button>
+  <span class="tb-sep" aria-hidden="true">|</span>
+  <button class="tb-btn" id="btn-dark" onclick="toggleDark()" aria-label="Dark Mode umschalten" title="Dark / Light Mode">🌙 Dark Mode</button>
+</div>
+
+<div class="view-main" id="viewMain">
+
+<!-- VORWORT -->
+<div class="vorwort-block" id="vorwortBlock">
+  <div class="vorwort-inner">
+    <div class="vorwort-icon">🧭</div>
+    <div class="vorwort-text">
+      <p>Ihr haltet hier keine klassische Inhaltsübersicht in der Hand, sondern eine <strong>interaktive Karte eures Kurses</strong>. Sie zeigt euch auf einen Blick, welche Themen wir gemeinsam erarbeiten – und wie sie miteinander zusammenhängen.</p>
+      <p><strong>Was ihr damit tun könnt:</strong> Klickt auf ein Modul, um die <em>Lernziele</em> und <em>Fachbegriffe</em> zu sehen, die ihr danach kennen sollt. Nutzt die <strong>Suche</strong>, wenn ihr einen Begriff schnell nachschlagen wollt. Das <strong>Quiz</strong> hilft bei der Klausurvorbereitung – direkt im Browser. Der <strong>Rote Faden</strong> zeigt, dass Geschichte kein Stückwerk ist. Und hakt ab, was ihr abgeschlossen habt – euer Fortschritt bleibt gespeichert.</p>
+    </div>
+    <button class="vorwort-close" onclick="document.getElementById('vorwortBlock').style.display='none'" aria-label="Vorwort schließen">×</button>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Geschichte für die Gegenwart</h1>
+  <div class="sub">WM GGK · SGG · Lehrkraft: Walter &nbsp;·&nbsp; Klick auf Modul = Ziele &amp; Fachbegriffe &nbsp;·&nbsp; Kompetenz-Filter aktiv klicken</div>
+  <div class="kompetenz-bar" role="group" aria-label="Kompetenz-Filter">
+    <span class="kb kb-q" tabindex="0" role="checkbox" aria-checked="true" onclick="filterKomp(this,'Quellenanalyse')" onkeydown="if(event.key==='Enter'||event.key===' ')filterKomp(this,'Quellenanalyse')">📄 Quellenanalyse</span>
+    <span class="kb kb-u" tabindex="0" role="checkbox" aria-checked="true" onclick="filterKomp(this,'Urteilsbildung')" onkeydown="if(event.key==='Enter'||event.key===' ')filterKomp(this,'Urteilsbildung')">⚖️ Urteilsbildung</span>
+    <span class="kb kb-p" tabindex="0" role="checkbox" aria-checked="true" onclick="filterKomp(this,'Perspektivenwechsel')" onkeydown="if(event.key==='Enter'||event.key===' ')filterKomp(this,'Perspektivenwechsel')">🔄 Perspektivenwechsel</span>
+    <span class="kb kb-h" tabindex="0" role="checkbox" aria-checked="true" onclick="filterKomp(this,'Gegenwartsbezug')" onkeydown="if(event.key==='Enter'||event.key===' ')filterKomp(this,'Gegenwartsbezug')">🔴 Gegenwartsbezug</span>
+    <span class="kb kb-n" tabindex="0" role="checkbox" aria-checked="true" onclick="filterKomp(this,'Narrativkompetenz')" onkeydown="if(event.key==='Enter'||event.key===' ')filterKomp(this,'Narrativkompetenz')">📖 Narrativkompetenz</span>
+    <span class="kb" style="background:#f0eeea;color:#666;border:1px solid #ddd" tabindex="0" onclick="resetFilter()" onkeydown="if(event.key==='Enter')resetFilter()">✕ Filter zurück</span>
+  </div>
+</div>
+
+<div class="search-wrap" role="search">
+  <span class="search-icon" aria-hidden="true">🔍</span>
+  <input type="search" class="search-input" id="searchInput" placeholder="Fachbegriff suchen... z.B. Dolchstoßlegende, Entente, Appeasement" aria-label="Fachbegriffe durchsuchen" autocomplete="off" oninput="handleSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)">
+  <div class="search-results" id="searchResults" role="listbox" aria-label="Suchergebnisse"></div>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-label">Kursfortschritt – Module abhaken (wird gespeichert):</div>
+  <div class="prog-dots" id="progressDots" role="group" aria-label="Modulfortschritt"></div>
+</div>
+
+<div class="zeitachse-wrap" aria-hidden="true">
+  <div class="za">
+    <div class="za-line"></div>
+    <div class="za-markers">
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c1)"></div><div class="za-lbl" style="color:var(--c1)">1914</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c2)"></div><div class="za-lbl" style="color:var(--c2)">1918</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c3)"></div><div class="za-lbl" style="color:var(--c3)">1919</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c4)"></div><div class="za-lbl" style="color:var(--c4)">1923–33</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c5)"></div><div class="za-lbl" style="color:var(--c5)">1933–45</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c6)"></div><div class="za-lbl" style="color:var(--c6)">Shoa</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c7)"></div><div class="za-lbl" style="color:var(--c7)">1945+</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c8)"></div><div class="za-lbl" style="color:var(--c8)">1947–89</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:var(--c9)"></div><div class="za-lbl" style="color:var(--c9)">1989–90</div></div>
+      <div class="za-mark"><div class="za-dot" style="border-color:#888"></div><div class="za-lbl" style="color:#888">Heute</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== J1 ===== -->
+<div class="jg-hd"><span class="jg-title jg-j1">► JAHRGANGSSTUFE J1 &nbsp;·&nbsp; 1914 – 1945</span></div>
+
+
+<!-- BLOCK 1: ERSTER WELTKRIEG -->
+<div class="block" data-block="0">
+  <div class="bh" style="background:var(--c1b)">
+    <div class="bh-icon">🌍</div>
+    <div class="bh-text">
+      <div class="btitle">Einstieg &amp; Erster Weltkrieg – Standortgebundenheit <span class="bepoche" style="color:var(--c1)">ca. 1914–1918</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(0)" aria-expanded="false" aria-controls="bs0">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Wie entstand der Erste Weltkrieg – und wie beeinflusst unser Standort, was wir davon erzählen?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs0">
+    <ul class="bs-list">
+      <li>Der Erste Weltkrieg entstand durch Nationalismus, Wettrüsten, Bündniszwänge und das Attentat von Sarajevo – kein einzelner Staat trug die Alleinschuld.</li>
+      <li>Der Historikerdiskurs (Fischer vs. Clark) ist bis heute offen – das zeigt: Geschichte ist kein Faktenfach, sondern ein Deutungsfach.</li>
+      <li>Historische Darstellungen sind immer standortgebunden: Wer erzählt, bestimmt, was erzählt wird und was weggelassen wird.</li>
+      <li>Die Triftigkeitsprüfung hilft dabei, Deutungen zu bewerten: Wie stichhaltig sind die Argumente? Wer spricht – und warum?</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Entente · Mittelmächte · Julikrise 1914 · Blankoscheck · Standortgebundenheit · Genozid · Triftigkeitsprüfung</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c1b);color:var(--c1)">M1</div>
+        <div class="mc-title">Mein Leben im Jahr 1917</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenspiel</span><span class="methchip"><span>📺</span>Film</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail" role="region" aria-label="Moduldetails M1">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Erste emotionale Annäherung an die Vorkriegszeit entwickeln</div>
+          <div class="dp-ziel-item">Empathie für die Erfahrungswelt junger Soldaten aufbauen</div>
+          <div class="dp-ziel-item">Kriegsdarstellung im Film und in der Geschichte kritisch reflektieren</div>
+          <div class="dp-ziel-item">Unterschied zwischen Erleben (M1) und Analysieren (M2) benennen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M1 Theorie')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M1 Theorie')">→ M1 Theorie</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M2')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M2')">→ M2</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ewk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Fähigkeit, sich in die Gefühle und Perspektive anderer hineinzuversetzen." style="border-color:var(--c1);color:var(--c1)">Empathie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtsschreibung, die auf individuelle Erlebnisse und Alltagserfahrungen fokussiert." style="border-color:var(--c1);color:var(--c1)">Erfahrungsgeschichte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Wie ein Werk oder Ereignis in verschiedenen Zeiten wahrgenommen und bewertet wurde." style="border-color:var(--c1);color:var(--c1)">Rezeptionsgeschichte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Unterrichtsmethode: erst allein denken, dann in Paaren besprechen, dann vorstellen." style="border-color:var(--c1);color:var(--c1)">Think-Pair-Share</span>
+          </div>
+        </div>
+        <div class="dp-section"><div class="dp-label">Methode &amp; Material</div>
+          <div class="dp-desc">Film: „Im Westen nichts Neues" (Netflix 2022); Wortwolke; Tagebucheintrag; 9 Oscar-Nominierungen, 4 Oscars.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c1b);color:var(--c1)">M2</div>
+        <div class="mc-title">Ausbruch des Ersten Weltkriegs – Allgemeinwissen</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>🗳</span>Multiple Choice</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Grundlagenwissen zum Kriegsausbruch aufbauen (Ursachen, Anlass)</div>
+          <div class="dp-ziel-item">Unterschied zwischen narrativer (M1) und analytischer Geschichtsschreibung erkennen</div>
+          <div class="dp-ziel-item">Bündnissysteme als Eskalationsmechanismus begreifen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7.1')">→ M7.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M6')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M6')">→ M6</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8.1')">→ M8.1</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ewk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Bündnis zwischen Frankreich, Großbritannien und Russland ab 1907." style="border-color:var(--c1);color:var(--c1)">Entente</span>
+            <span class="vocab-pill" tabindex="0" data-def="Bündnis von Deutschem Kaiserreich, Österreich-Ungarn u.a. im 1. Weltkrieg." style="border-color:var(--c1);color:var(--c1)">Mittelmächte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Systematische militärische Aufrüstung konkurrierender Mächte vor dem 1. Weltkrieg." style="border-color:var(--c1);color:var(--c1)">Wettrüsten</span>
+            <span class="vocab-pill" tabindex="0" data-def="Metapher für die explosiv gespannte politische Lage auf dem Balkan um 1914." style="border-color:var(--c1);color:var(--c1)">Pulverfass Balkan</span>
+            <span class="vocab-pill" tabindex="0" data-def="Diplomatische Krise nach dem Attentat von Sarajevo, die zum Kriegsausbruch führte." style="border-color:var(--c1);color:var(--c1)">Julikrise 1914</span>
+            <span class="vocab-pill" tabindex="0" data-def="Deutschlands bedingungslose Zusicherung militärischer Unterstützung an Österreich-Ungarn 1914." style="border-color:var(--c1);color:var(--c1)">Blankoscheck</span>
+            <span class="vocab-pill" tabindex="0" data-def="Erwerb und Verwaltung von Gebieten außerhalb Europas durch europäische Mächte." style="border-color:var(--c1);color:var(--c1)">Kolonialpolitik</span>
+            <span class="vocab-pill" tabindex="0" data-def="Systematische, strukturorientierte Darstellung historischer Ursachen und Zusammenhänge." style="border-color:var(--c1);color:var(--c1)">Analytische Geschichtsschreibung</span>
+          </div>
+        </div>
+        <a class="dp-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts" target="_blank">🔗 Kognitive Landkarte</a>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c1b);color:var(--c1)">M3</div>
+        <div class="mc-title">Standortgebundenheit – Genozid an den Armenier*innen</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span><span class="heute-chip">🔴 Türkei-Debatte</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Verstehen, wie politische Rollen historische Deutungen prägen</div>
+          <div class="dp-ziel-item">Das Konzept der Standortgebundenheit auf ein konkretes Beispiel anwenden</div>
+          <div class="dp-ziel-item">Triftigkeitsprüfung: Welche Darstellung ist überzeugender – und warum?</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7')">→ M7</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8')">→ M8</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ewk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Historisches Denken ist immer durch den eigenen Standort (Zeit, Ort, Rolle) beeinflusst." style="border-color:var(--c1);color:var(--c1)">Standortgebundenheit</span>
+            <span class="vocab-pill" tabindex="0" data-def="Systematische, beabsichtigte Vernichtung einer Gruppe aufgrund ihrer Identität (UN 1948)." style="border-color:var(--c1);color:var(--c1)">Genozid / Völkermord</span>
+            <span class="vocab-pill" tabindex="0" data-def="Methode: Sind die Argumente einer historischen Darstellung stichhaltig und belegt?" style="border-color:var(--c1);color:var(--c1)">Triftigkeitsprüfung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Historische Aussagen sind immer an eine bestimmte Perspektive gebunden." style="border-color:var(--c1);color:var(--c1)">Perspektivgebundenheit</span>
+            <span class="vocab-pill" tabindex="0" data-def="Internationale Konvention zur Verhütung und Bestrafung des Völkermordes (1948)." style="border-color:var(--c1);color:var(--c1)">UN-Konvention 1948</span>
+          </div>
+        </div>
+        <a class="dp-link" href="https://historischdenken.hypotheses.org/2343" target="_blank">🔗 historischdenken.hypotheses.org</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BLOCK 2: NOVEMBERREVOLUTION -->
+<div class="block" data-block="1">
+  <div class="bh" style="background:var(--c2b)">
+    <div class="bh-icon">🏴</div>
+    <div class="bh-text">
+      <div class="btitle">Novemberrevolution &amp; Gründung der Weimarer Republik <span class="bepoche" style="color:var(--c2)">1918–1919</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(1)" aria-expanded="false" aria-controls="bs1">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Warum scheiterte die Revolution – und was sagt das über die Fragilität von Demokratie?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs1">
+    <ul class="bs-list">
+      <li>Die Novemberrevolution beendete das Kaiserreich – zwei Republiken standen zur Wahl: parlamentarische Demokratie (Scheidemann) oder Räterepublik (Liebknecht).</li>
+      <li>Ebert setzte sich durch, Luxemburg und Liebknecht wurden ermordet. Die Demokratie begann mit einer schweren Hypothek.</li>
+      <li>Das soziale Milieu entschied, wer wen unterstützte: Soziale Zugehörigkeit und politisches Handeln hingen direkt zusammen.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Matrosenaufstand · Doppelte Ausrufung · Räterepublik · Volkssouveränität · SPD · Spartakusbund · Milieu</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c2b);color:var(--c2)">M4</div>
+        <div class="mc-title">Der Krieg ist verloren! – Novemberrevolution 1918</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenspiel</span><span class="methchip"><span>🗺️</span>Milieukarte</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Gesellschaftliche Stimmung am Kriegsende einfühlen</div>
+          <div class="dp-ziel-item">Milieuperspektiven des Deutschen Kaiserreichs 1918 einnehmen und benennen</div>
+          <div class="dp-ziel-item">Grundlage für das Verständnis der Weimarer Republik schaffen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M5')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M5')">→ M5</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M4.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M4.1')">→ M4.1</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nov" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Meuterei deutscher Matrosen in Kiel/Wilhelmshaven (Okt. 1918), Auslöser der Novemberrevolution." style="border-color:var(--c2);color:var(--c2)">Matrosenaufstand</span>
+            <span class="vocab-pill" tabindex="0" data-def="Aufstand von Soldaten oder Matrosen gegen militärische Befehlshaber." style="border-color:var(--c2);color:var(--c2)">Meuterei</span>
+            <span class="vocab-pill" tabindex="0" data-def="Revolutionäre Bewegung in Deutschland Nov. 1918: Ende des Kaiserreichs, Beginn der WR." style="border-color:var(--c2);color:var(--c2)">Novemberrevolution</span>
+            <span class="vocab-pill" tabindex="0" data-def="Soziales Umfeld, das Denken, Werte und Verhalten von Menschen prägt." style="border-color:var(--c2);color:var(--c2)">Milieu</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gruppe von Menschen mit ähnlicher Lebensweise, Wertorientierung und sozialem Status." style="border-color:var(--c2);color:var(--c2)">Soziales Milieu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Narrativkompetenz">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c2b);color:var(--c2)">M4.1</div>
+        <div class="mc-title">Gesellschaft des Deutschen Kaiserreichs 1918</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Infomaterial</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-n">📖 Narrativkompetenz</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Soziale Hierarchie des Kaiserreichs 1918 beschreiben</div>
+          <div class="dp-ziel-item">Zusammenhang zwischen sozialer Stellung und politischem Handeln herstellen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M4')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M4')">→ M4</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M9')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M9')">→ M9</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nov" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Rangordnung sozialer Gruppen nach Macht, Status und Ressourcen." style="border-color:var(--c2);color:var(--c2)">Soziale Hierarchie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gesellschaftliche Schicht aus Besitz- und Bildungsbürgertum; prägte Kaiserreich und WR." style="border-color:var(--c2);color:var(--c2)">Bürgertum</span>
+            <span class="vocab-pill" tabindex="0" data-def="Arbeiterschaft; besaß kein Eigentum und war auf Lohnarbeit angewiesen." style="border-color:var(--c2);color:var(--c2)">Proletariat</span>
+            <span class="vocab-pill" tabindex="0" data-def="Preußischer Landadel; politisch und militärisch einflussreich im Kaiserreich." style="border-color:var(--c2);color:var(--c2)">Junker</span>
+            <span class="vocab-pill" tabindex="0" data-def="Möglichkeit, innerhalb der Gesellschaft auf- oder abzusteigen." style="border-color:var(--c2);color:var(--c2)">Soziale Mobilität</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c2b);color:var(--c2)">M5</div>
+        <div class="mc-title">Die Doppelte Ausrufung der Republik</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenspiel</span><span class="methchip"><span>📱</span>KI-Chatbot</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Politische Ziele der vier Schlüsselfiguren erarbeiten und vergleichen</div>
+          <div class="dp-ziel-item">Eigenständiges Urteil über beide Alternativen entwickeln</div>
+          <div class="dp-ziel-item">Unterschied parlamentarische Demokratie vs. Räterepublik präzise benennen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M5.1–5.3')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M5.1–5.3')">→ M5.1–5.3</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M9')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M9')">→ M9</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nov" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Regierungsform mit gewähltem Parlament als zentraler politischer Instanz." style="border-color:var(--c2);color:var(--c2)">Parlamentarische Demokratie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Sozialistisches Gegenmodell: Arbeiter- und Soldatenräte als direkte Regierung." style="border-color:var(--c2);color:var(--c2)">Räterepublik</span>
+            <span class="vocab-pill" tabindex="0" data-def="Linksradikale Organisation von Rosa Luxemburg und Karl Liebknecht; Vorläufer der KPD." style="border-color:var(--c2);color:var(--c2)">Spartakusbund</span>
+            <span class="vocab-pill" tabindex="0" data-def="Sozialdemokratische Partei Deutschlands; größte Partei 1918, führte die WR ein." style="border-color:var(--c2);color:var(--c2)">SPD</span>
+            <span class="vocab-pill" tabindex="0" data-def="Scheidemann rief 14 Uhr die Republik aus, Liebknecht 16 Uhr die sozialistische Republik." style="border-color:var(--c2);color:var(--c2)">Doppelte Ausrufung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Prinzip: Alle Staatsgewalt geht vom Volk aus." style="border-color:var(--c2);color:var(--c2)">Volkssouveränität</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c2b);color:var(--c2)">M5.1–5.3</div>
+        <div class="mc-title">Quellenarbeit, ARTE-Doku &amp; Faktenwissen Novemberrevolution</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>📺</span>Film</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Primärquellen (Redeauszüge 9.11.1918) analysieren und interpretieren</div>
+          <div class="dp-ziel-item">Unterschied Darstellung und Deutung in einem Dokumentarfilm erkennen</div>
+          <div class="dp-ziel-item">Überblickswissen zur Novemberrevolution sichern (Auslöser, Verlauf, Folgen)</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M6')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M6')">→ M6</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nov" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Historisches Dokument aus der Zeit des untersuchten Ereignisses (Originaldokument)." style="border-color:var(--c2);color:var(--c2)">Primärquelle</span>
+            <span class="vocab-pill" tabindex="0" data-def="Methode zur kritischen Untersuchung historischer Quellen (Autor, Entstehung, Inhalt, Wirkung)." style="border-color:var(--c2);color:var(--c2)">Quellenanalyse</span>
+            <span class="vocab-pill" tabindex="0" data-def="Erste deutsche Demokratie 1919-1933, gegründet nach der Novemberrevolution." style="border-color:var(--c2);color:var(--c2)">Weimarer Republik</span>
+            <span class="vocab-pill" tabindex="0" data-def="Revolutionäre Gremien 1918/19, die zeitweise Macht in deutschen Städten übernahmen." style="border-color:var(--c2);color:var(--c2)">Arbeiter- und Soldatenräte</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- BLOCK 3: VERSAILLER VERTRAG -->
+<div class="block" data-block="2">
+  <div class="bh" style="background:var(--c3b)">
+    <div class="bh-icon">📜</div>
+    <div class="bh-text">
+      <div class="btitle">Versailler Vertrag &amp; Internationale Neuordnung <span class="bepoche" style="color:var(--c3)">1919</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(2)" aria-expanded="false" aria-controls="bs2">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„War Versailles ein gerechter Frieden – oder die Ursache des nächsten Krieges?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs2">
+    <ul class="bs-list">
+      <li>Der Versailler Vertrag war kein gerechter Frieden – er war ein politisches Instrument der Siegermächte.</li>
+      <li>Die Kriegsschuldklausel (Art. 231), Reparationen und Gebietsverluste schufen einen Nährboden für extremistische Kräfte.</li>
+      <li>Das Selbstbestimmungsrecht der Völker blieb für viele Gruppen ein leeres Versprechen – Eurozentrismus prägte die Entscheidungen.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Diktatfrieden · Art. 231 · Reparationen · Selbstbestimmungsrecht · Völkerbund · Ian Kershaw · Fischer vs. Clark</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c3b);color:var(--c3)">M6</div>
+        <div class="mc-title">Friedensvertrag oder künftige Kriegserklärung?</div>
+        <div class="mc-row"><span class="methchip"><span>🗳</span>Abstimmung</span><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 Ukraine-Parallele</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Interessen der Siegermächte am Versailler Vertrag benennen und abwägen</div>
+          <div class="dp-ziel-item">Konsequenzen des Vertrages auf Deutschland und die Weltordnung bewerten</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M6.1–6.3')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M6.1–6.3')">→ M6.1–6.3</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7')">→ M7</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#versailles" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Friedensvertrag nach dem 1. WK; für Deutschland demütigend und politisch destabilisierend." style="border-color:var(--c3);color:var(--c3)">Versailler Vertrag (28.6.1919)</span>
+            <span class="vocab-pill" tabindex="0" data-def="US-Präsident Wilsons Friedensprogramm 1918 mit dem Selbstbestimmungsrecht als Kernpunkt." style="border-color:var(--c3);color:var(--c3)">Wilsons 14-Punkte-Plan</span>
+            <span class="vocab-pill" tabindex="0" data-def="Völkerrechtliches Prinzip: Völker sollen ihre politische Zugehörigkeit selbst bestimmen." style="border-color:var(--c3);color:var(--c3)">Selbstbestimmungsrecht der Völker</span>
+            <span class="vocab-pill" tabindex="0" data-def="Alliierte Mächte (Frankreich, UK, USA u.a.) nach dem 1. Weltkrieg." style="border-color:var(--c3);color:var(--c3)">Siegermächte</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c3b);color:var(--c3)">M6.1–6.3</div>
+        <div class="mc-title">Neue Staatsgrenzen, ARD-Doku &amp; Kershaw</div>
+        <div class="mc-row"><span class="methchip"><span>📺</span>Film</span><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Grenzneuziehungen als Konsequenz des Versailler Vertrags auf der Karte nachvollziehen</div>
+          <div class="dp-ziel-item">Kershaw als Historiker einordnen und sein Urteil bewerten</div>
+          <div class="dp-ziel-item">Minderheitenprobleme als Folge der Grenzziehungen erklären</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7')">→ M7</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7 Extra')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7 Extra')">→ M7 Extra</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#versailles" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Festlegung staatlicher Grenzen; nach 1919 oft entlang ethnischer oder strategischer Linien." style="border-color:var(--c3);color:var(--c3)">Grenzziehung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Entstehung ethnischer Minderheiten durch neue Grenzen nach dem Versailler Vertrag." style="border-color:var(--c3);color:var(--c3)">Minderheitenproblem</span>
+            <span class="vocab-pill" tabindex="0" data-def="Bewertung eines historischen Ereignisses durch einen ausgewiesenen Fachwissenschaftler." style="border-color:var(--c3);color:var(--c3)">Fachurteil</span>
+            <span class="vocab-pill" tabindex="0" data-def="Britischer Historiker; bekannt für biographische NS-Forschung (Hitler-Biographie, 2 Bände)." style="border-color:var(--c3);color:var(--c3)">Ian Kershaw</span>
+            <span class="vocab-pill" tabindex="0" data-def="Deutsche Bezeichnung für den Versailler Vertrag – als aufgezwungen ohne Verhandlungsmöglichkeit." style="border-color:var(--c3);color:var(--c3)">Diktatfrieden</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c3b);color:var(--c3)">M7</div>
+        <div class="mc-title">Versailler Vertrag aus deutscher Perspektive</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Empörung der deutschen Bevölkerung über Versailles nachvollziehen und einordnen</div>
+          <div class="dp-ziel-item">Reparationspolitik als innenpolitisches Destabilisierungselement analysieren</div>
+          <div class="dp-ziel-item">Verbindung Versailles → Weimarer Instabilität → NS-Aufstieg herstellen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8.1')">→ M8.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M7.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M7.1')">→ M7.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M11')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M11')">→ M11</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#versailles" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Schadensersatzzahlungen Deutschlands an die Siegermächte nach dem 1. Weltkrieg." style="border-color:var(--c3);color:var(--c3)">Reparationen</span>
+            <span class="vocab-pill" tabindex="0" data-def="Artikel 231 VV: Deutschland und Verbündete als Alleinschuldige am 1. WK erklärt." style="border-color:var(--c3);color:var(--c3)">Kriegsschuldklausel (Art. 231)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Versailler Vertrag: Deutsche Armee auf max. 100.000 Soldaten begrenzt." style="border-color:var(--c3);color:var(--c3)">Militärbeschränkung (100.000)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Einschätzung und Interpretation eines Historikers zu historischen Ereignissen." style="border-color:var(--c3);color:var(--c3)">Historikerurteil</span>
+            <span class="vocab-pill" tabindex="0" data-def="Internationale Organisation 1920-1946; Vorläufer der UNO; sollte den Frieden sichern." style="border-color:var(--c3);color:var(--c3)">Völkerbund</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c3b);color:var(--c3)">M7 Extra</div>
+        <div class="mc-title">Versailler Vertrag als globalhistorische Zäsur</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 Globalgeschichte heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Eurozentrismus der Pariser Vorortverträge benennen und kritisieren</div>
+          <div class="dp-ziel-item">Globale Folgen der Neuordnung (Naher Osten, Kolonien) einschätzen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M31')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M31')">→ M31</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#versailles" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Sichtweise, die europäische Erfahrungen als allgemeingültig oder zentral betrachtet." style="border-color:var(--c3);color:var(--c3)">Eurozentrismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtsschreibung, die weltweite Verflechtungen und außereuropäische Perspektiven einbezieht." style="border-color:var(--c3);color:var(--c3)">Globalgeschichte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Völkerbundmandate: ehemalige Kolonien wurden nach 1919 unter Verwaltung der Siegermächte gestellt." style="border-color:var(--c3);color:var(--c3)">Mandatssystem</span>
+            <span class="vocab-pill" tabindex="0" data-def="Internationale Organisation 1920-1946; Vorläufer der UNO; sollte den Frieden sichern." style="border-color:var(--c3);color:var(--c3)">Völkerbund</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c3b);color:var(--c3)">M7.1</div>
+        <div class="mc-title">Wer trägt die Schuld am Ersten Weltkrieg?</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Historikervergleich</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Fischer-Kontroverse und Clark-These vergleichend darstellen</div>
+          <div class="dp-ziel-item">Eigenes begründetes Urteil zur Kriegsschuldfrage formulieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8')">→ M8</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8.1')">→ M8.1</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#versailles" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Fischer (1961): Deutschland trug die Hauptschuld am 1. WK durch bewusste Aggression." style="border-color:var(--c3);color:var(--c3)">Fritz Fischer</span>
+            <span class="vocab-pill" tabindex="0" data-def="Christopher Clark (2012): Alle Großmächte taudelten unbeabsichtigt in den Krieg." style="border-color:var(--c3);color:var(--c3)">Clark – Schlafwandler-These</span>
+            <span class="vocab-pill" tabindex="0" data-def="Wissenschaftliche Debatte unter Historiker*innen über Deutungen historischer Ereignisse." style="border-color:var(--c3);color:var(--c3)">Historischer Diskurs</span>
+            <span class="vocab-pill" tabindex="0" data-def="Wissenschaft von der Geschichtsschreibung; wie und warum Geschichte unterschiedlich geschrieben wird." style="border-color:var(--c3);color:var(--c3)">Historiographie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BLOCK 4: KOLLEKTIVES GEDÄCHTNIS + KRISE WR -->
+<div class="block" data-block="3">
+  <div class="bh" style="background:var(--c4b)">
+    <div class="bh-icon">🧠</div>
+    <div class="bh-text">
+      <div class="btitle">Kollektives Gedächtnis &amp; Weimarer Republik – Krisenjahre <span class="bepoche" style="color:var(--c4)">1919–1933</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(3)" aria-expanded="false" aria-controls="bs3">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Was hindert Demokratien daran, sich selbst zu verteidigen – damals wie heute?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs3">
+    <ul class="bs-list">
+      <li>Das kollektive Gedächtnis der Weimarer Republik war vergiftet: Kriegstrauma, Dolchstoßlegende und Reparationsschmerz verhinderten Demokratievertrauen.</li>
+      <li>Die Demokratie scheiterte nicht nur an äußeren Krisen (1923, 1929), sondern an demokratiefeindlichen Einstellungen in Teilen der Bevölkerung.</li>
+      <li>Die Goldenen Zwanziger waren ein urbaner Mythos – auf dem Land herrschten Armut, Konservatismus und Demokratieskepsis.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Kollektives Gedächtnis (Assmann) · Dolchstoßlegende · Hyperinflation · Hitler-Putsch 1923 · Agency-Konzept · Wahl-O-Mat 1919</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Narrativkompetenz">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M8</div>
+        <div class="mc-title">Das kollektive Gedächtnis – Identität &amp; Erinnerungskultur</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Theorie</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-n">📖 Narrativkompetenz</span><span class="heute-chip">🔴 Geschichtspolitik heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Theorie des kollektiven Gedächtnisses nach Aleida und Jan Assmann erläutern</div>
+          <div class="dp-ziel-item">Unterschied individuelles / kollektives / kulturelles Gedächtnis benennen</div>
+          <div class="dp-ziel-item">Bezüge zur Erinnerungskultur der BRD herstellen</div>
+          <div class="dp-ziel-item">Geschichtspolitik als Instrument der Macht analysieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M8.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M8.1')">→ M8.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M25')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M25')">→ M25</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Geteiltes Erinnerungswissen einer Gruppe oder Gesellschaft (nach Aleida Assmann)." style="border-color:var(--c4);color:var(--c4)">Kollektives Gedächtnis</span>
+            <span class="vocab-pill" tabindex="0" data-def="Persönliche Erinnerungen eines einzelnen Menschen." style="border-color:var(--c4);color:var(--c4)">Individuelles Gedächtnis</span>
+            <span class="vocab-pill" tabindex="0" data-def="Aktiver, politisch genutzter Teil des kollektiven Gedächtnisses (Assmann)." style="border-color:var(--c4);color:var(--c4)">Funktionsgedächtnis</span>
+            <span class="vocab-pill" tabindex="0" data-def="Passiver Archivbestand von Erinnerungen, die nicht aktiv genutzt werden (Assmann)." style="border-color:var(--c4);color:var(--c4)">Speichergedächtnis</span>
+            <span class="vocab-pill" tabindex="0" data-def="Deutsche Kulturwissenschaftlerin; prägte die Theorie des kulturellen und kollektiven Gedächtnisses." style="border-color:var(--c4);color:var(--c4)">Aleida Assmann</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gesellschaftliche Praxis, wie an historische Ereignisse erinnert und gedacht wird." style="border-color:var(--c4);color:var(--c4)">Erinnerungskultur</span>
+            <span class="vocab-pill" tabindex="0" data-def="Politische Instrumentalisierung von Geschichte zur Legitimation von Zielen." style="border-color:var(--c4);color:var(--c4)">Geschichtspolitik</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M8.1</div>
+        <div class="mc-title">Koll. Gedächtnis der Weimarer Republik – Krisennarrative</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 AfD-Narrativ</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Dolchstoßlegende als politisches Narrativ entlarven und dekonstruieren</div>
+          <div class="dp-ziel-item">Funktion von Kriegstraumata für die politische Kultur der WR analysieren</div>
+          <div class="dp-ziel-item">Gegenwartsbezug: Wie nutzen heutige Parteien ähnliche Narrative?</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M15–M21')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M15–M21')">→ M15–M21</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M22.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M22.1')">→ M22.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M9')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M9')">→ M9</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Rechte Propagandaerzählung: Die Armee sei 1918 von der Heimatfront verraten worden." style="border-color:var(--c4);color:var(--c4)">Dolchstoßlegende</span>
+            <span class="vocab-pill" tabindex="0" data-def="Psychische und gesellschaftliche Wunden durch Kriegserfahrungen; prägte die Weimarer Gesellschaft." style="border-color:var(--c4);color:var(--c4)">Kriegstrauma</span>
+            <span class="vocab-pill" tabindex="0" data-def="Ideologie, die die eigene Nation als höchsten Wert betrachtet." style="border-color:var(--c4);color:var(--c4)">Nationalismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="Ablehnung oder Untergrabung demokratischer Werte und Institutionen." style="border-color:var(--c4);color:var(--c4)">Demokratiefeindlichkeit</span>
+            <span class="vocab-pill" tabindex="0" data-def="Pseudowissenschaftliche Rassenlehre; Grundlage der NS-Ideologie." style="border-color:var(--c4);color:var(--c4)">Eugenetik / Rassenkunde</span>
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtsschreibung, die kollektive Denk- und Gefühlswelten untersucht." style="border-color:var(--c4);color:var(--c4)">Mentalitätsgeschichte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Vielfältiges, oft zersplittertes Parteiensystem der Weimarer Republik." style="border-color:var(--c4);color:var(--c4)">Parteienlandschaft WR</span>
+          </div>
+        </div>
+        <a class="dp-link" href="https://geschichtefuerdiegegenwart.github.io/Wahl-O-Mat-1919" target="_blank">🗳 Wahl-O-Mat 1919 (GitHub)</a>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Gegenwartsbezug">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M9</div>
+        <div class="mc-title">Wahlen 1919 – Wohin soll die Reise gehen?</div>
+        <div class="mc-row"><span class="methchip"><span>🗳</span>Wahl-O-Mat</span><span class="methchip"><span>📱</span>App</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-h">🔴 Gegenwartsbezug</span><span class="heute-chip">🔴 Wahlen &amp; Demokratie</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Parteienlandschaft der Weimarer Republik mit eigenem Wahl-O-Mat erkunden</div>
+          <div class="dp-ziel-item">Demokratiefähigkeit der WR-Gesellschaft einschätzen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M11')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M11')">→ M11</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Vielfältiges, oft zersplittertes Parteiensystem der Weimarer Republik." style="border-color:var(--c4);color:var(--c4)">Parteienlandschaft WR</span>
+            <span class="vocab-pill" tabindex="0" data-def="Soziale Gruppen mit ähnlichen Wertvorstellungen, die ihr Wahlverhalten prägten." style="border-color:var(--c4);color:var(--c4)">Gesellschaftsmilieus 1919</span>
+            <span class="vocab-pill" tabindex="0" data-def="Fähigkeit einer Gesellschaft, demokratische Institutionen zu tragen und zu verteidigen." style="border-color:var(--c4);color:var(--c4)">Demokratiefähigkeit</span>
+          </div>
+        </div>
+        <a class="dp-link" href="https://geschichtefuerdiegegenwart.github.io/Wahl-O-Mat-1919" target="_blank">🗳 Wahl-O-Mat 1919 starten</a>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M11</div>
+        <div class="mc-title">Das Krisenjahr 1923</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 Inflation heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Vier Krisen von 1923 benennen: Ruhrkampf, Hyperinflation, Putschversuch, Separatismus</div>
+          <div class="dp-ziel-item">Ursachen der Hyperinflation analysieren und mit heutiger Inflation vergleichen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M12')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M12')">→ M12</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M15–M21')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M15–M21')">→ M15–M21</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="1923: Frankreich besetzt das Ruhrgebiet; Deutschland antwortet mit passivem Widerstand." style="border-color:var(--c4);color:var(--c4)">Ruhrkampf</span>
+            <span class="vocab-pill" tabindex="0" data-def="1923: Extreme Geldentwertung in Deutschland; zerstörte Ersparnisse und erschütterte Vertrauen." style="border-color:var(--c4);color:var(--c4)">Hyperinflation</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gescheiterter Putschversuch Hitlers in München, Nov. 1923 (Bürgerbräukeller-Putsch)." style="border-color:var(--c4);color:var(--c4)">Hitler-Ludendorff-Putsch</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gewalttaten politischer Gruppen zur Einschüchterung und Destabilisierung." style="border-color:var(--c4);color:var(--c4)">Politischer Terror</span>
+            <span class="vocab-pill" tabindex="0" data-def="Neue Währung 1923, die die Hyperinflation beendete und das Vertrauen wiederherstellte." style="border-color:var(--c4);color:var(--c4)">Rentenmark</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Narrativkompetenz">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M12</div>
+        <div class="mc-title">Die Goldenen Zwanziger – Mythos oder Wahrheit?</div>
+        <div class="mc-row"><span class="methchip"><span>📺</span>Film</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-n">📖 Narrativkompetenz</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Mythos der Goldenen Zwanziger als urbanes und selektives Narrativ dekonstruieren</div>
+          <div class="dp-ziel-item">Unterschied Stadt-Land-Erfahrungen in der WR benennen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M13–M14')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M13–M14')">→ M13–M14</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Goldene 20er: Blütezeit von Kunst, Literatur, Film, Musik in deutschen Großstädten." style="border-color:var(--c4);color:var(--c4)">Kulturblüte Weimar</span>
+            <span class="vocab-pill" tabindex="0" data-def="Bauhaus-Design, Expressionismus, Kabarett, Neue Sachlichkeit – kulturelle Vielfalt der WR." style="border-color:var(--c4);color:var(--c4)">Weimarer Kultur (Bauhaus, Cabaret)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Historische Methode: Ereignisse aus mehreren Perspektiven gleichzeitig betrachten." style="border-color:var(--c4);color:var(--c4)">Multiperspektivität</span>
+            <span class="vocab-pill" tabindex="0" data-def="Historisches Konzept: Welche Handlungsspielräume hatten Menschen in bestimmten Situationen?" style="border-color:var(--c4);color:var(--c4)">Agency-Konzept</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c4b);color:var(--c4)">M13–M14</div>
+        <div class="mc-title">Zwei Leben: Lotte (Berlin) &amp; Anna (Thüringen)</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenbiographie</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Unterschiedliche Alltagserfahrungen in der WR durch Biographien vergleichen</div>
+          <div class="dp-ziel-item">Milieuzugehörigkeit als Faktor politischer Orientierung einordnen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M15–M21')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M15–M21')">→ M15–M21</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#wr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtsschreibung, die soziale Strukturen, Klassen und Lebensumstände untersucht." style="border-color:var(--c4);color:var(--c4)">Sozialgeschichte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Lernmethode: Schüler*innen übernehmen fiktive Biographien historischer Personen." style="border-color:var(--c4);color:var(--c4)">Rollenbiographie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Zuordnung von Personen zu einem sozialen Milieu anhand ihrer Lebensbedingungen." style="border-color:var(--c4);color:var(--c4)">Milieuzuordnung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Historische Methode: Ereignisse aus mehreren Perspektiven gleichzeitig betrachten." style="border-color:var(--c4);color:var(--c4)">Multiperspektivität</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- BLOCK 5: NS + ZWEITER WELTKRIEG -->
+<div class="block" data-block="4">
+  <div class="bh" style="background:var(--c5b)">
+    <div class="bh-icon">⚠️</div>
+    <div class="bh-text">
+      <div class="btitle">Nationalsozialismus, Zweiter Weltkrieg &amp; Moralische Dilemmata <span class="bepoche" style="color:var(--c5)">1933–1945</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(4)" aria-expanded="false" aria-controls="bs4">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Wie wurde aus einer Demokratie eine Diktatur – und was können wir dagegen tun?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs4">
+    <ul class="bs-list">
+      <li>Die NS-Machtergreifung war kein Zufall: Weltwirtschaftskrise, Demokratieversagen und NS-Ideologie wirkten zusammen.</li>
+      <li>Die NS-Ideologie baute auf fünf Säulen auf: Volksgemeinschaft, Rassismus, Führerprinzip, Antisemitismus, Lebensraum.</li>
+      <li>Moralische Dilemmata (Appeasement, Bombardierung, Kollaboration) zeigen: Historische Entscheidungen sind komplex.</li>
+      <li>Gegenwartsbezug: Rechtspopulismus bedient sich ähnlicher Narrative (Feindbilder, Nationalismus, Demokratieverachtung).</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Ermächtigungsgesetz · Gleichschaltung · Volksgemeinschaft · Antisemitismus · Appeasement-Politik · Moralisches Dilemma</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c5b);color:var(--c5)">M15–M21</div>
+        <div class="mc-title">NSDAP-Aufstieg, Machtergreifung &amp; Demokratieabbau</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Aufstieg der NSDAP von der Splitterpartei zur Regierungspartei analysieren</div>
+          <div class="dp-ziel-item">Schritte des Demokratieabbaus 1933-34 chronologisch einordnen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M22')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M22')">→ M22</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M23–M24')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M23–M24')">→ M23–M24</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ns" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Globale wirtschaftliche Depression ab 1929; verstärkte politischen Extremismus in Deutschland." style="border-color:var(--c5);color:var(--c5)">Weltwirtschaftskrise 1929</span>
+            <span class="vocab-pill" tabindex="0" data-def="Brand des Reichstagsgebäudes 27.2.1933; von Nazis genutzt, um Grundrechte auszuhebeln." style="border-color:var(--c5);color:var(--c5)">Reichstagsbrand</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gesetz vom 23.3.1933: Übertrug Gesetzgebungsmacht auf Hitler-Regierung – Ende der WR." style="border-color:var(--c5);color:var(--c5)">Ermächtigungsgesetz</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Prozess: alle gesellschaftlichen Bereiche wurden dem NS-Staat untergeordnet." style="border-color:var(--c5);color:var(--c5)">Gleichschaltung</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Rechtsbestimmung, die Jüdinnen und Juden aus Ämtern und Berufen ausschloss." style="border-color:var(--c5);color:var(--c5)">Arierparagraph</span>
+            <span class="vocab-pill" tabindex="0" data-def="Schrittweise Zerstörung demokratischer Institutionen durch die NSDAP 1930-1934." style="border-color:var(--c5);color:var(--c5)">Demokratieabbau</span>
+          </div>
+        </div>
+        <a class="dp-link" href="https://geschichtefuerdiegegenwart.github.io/NS-Parteien-uebersicht" target="_blank">📊 Parteienübersicht (GitHub)</a>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c5b);color:var(--c5)">M22</div>
+        <div class="mc-title">Die Ideologie des Nationalsozialismus</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Die fünf Säulen der NS-Ideologie benennen und erklären</div>
+          <div class="dp-ziel-item">NS-Propaganda als Mittel zur Massenmobilisierung analysieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M22.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M22.1')">→ M22.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M23–M24')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M23–M24')">→ M23–M24</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ns" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="NS-Ideologie: homogene, rassisch definierte nationale Gemeinschaft." style="border-color:var(--c5);color:var(--c5)">Volksgemeinschaft</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Kern: biologistischer Rassismus und systematischer Judenhass." style="border-color:var(--c5);color:var(--c5)">Rassismus / Antisemitismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Prinzip: unbedingte Unterordnung unter den Führer Hitler auf allen Ebenen." style="border-color:var(--c5);color:var(--c5)">Führerprinzip</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Ideologie: Expansion nach Osteuropa zur Gewinnung von Siedlungs- und Ackerland." style="border-color:var(--c5);color:var(--c5)">Lebensraum Osten</span>
+            <span class="vocab-pill" tabindex="0" data-def="Systematische Manipulation der öffentlichen Meinung durch Bilder, Sprache, Medien." style="border-color:var(--c5);color:var(--c5)">Propagandatechnik</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Gegenwartsbezug">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c5b);color:var(--c5)">M22.1</div>
+        <div class="mc-title">Exkurs: NS-Ideologie vs. AfD</div>
+        <div class="mc-row"><span class="methchip"><span>💬</span>Diskussion</span><span class="methchip"><span>🗳</span>Abstimmung</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-h">🔴 Gegenwartsbezug</span><span class="heute-chip">🔴 AfD-Vergleich</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Populistische Narrative heute mit NS-Rhetorik sachlich vergleichen (ohne Gleichsetzung)</div>
+          <div class="dp-ziel-item">Konzept des Rechtspopulismus definieren und abgrenzen</div>
+          <div class="dp-ziel-item">Demokratischen Diskurs als Gegenmittel reflektieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M28.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M28.1')">→ M28.1</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ns" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Politische Strömung: nutzt Volksfeindbilder, Nationalismus und Elite-Skepsis." style="border-color:var(--c5);color:var(--c5)">Rechtspopulismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="Übertragung historischer Erkenntnisse auf gegenwärtige Phänomene und Situationen." style="border-color:var(--c5);color:var(--c5)">Historischer Transfer</span>
+            <span class="vocab-pill" tabindex="0" data-def="Öffentlicher, regelgebundener Austausch von Meinungen in einer Demokratie." style="border-color:var(--c5);color:var(--c5)">Demokratischer Diskurs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c5b);color:var(--c5)">M23–M24</div>
+        <div class="mc-title">Appeasement &amp; Drei moralische Dilemmata</div>
+        <div class="mc-row"><span class="methchip"><span>💬</span>Diskussion</span><span class="methchip"><span>🎭</span>Rollenspiel</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 Ukraine-Analogie</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Appeasement-Politik sachlich bewerten (Fehler oder rationale Strategie?)</div>
+          <div class="dp-ziel-item">Drei moralische Dilemmata diskutieren: Bombardierung, Kollaboration, Widerstand</div>
+          <div class="dp-ziel-item">Gegenwartsbezug: Welche Lektionen zieht Europa aus dem Appeasement für heute?</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M25')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M25')">→ M25</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M29')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M29')">→ M29</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ns" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Brit. Strategie der Beschwichtigung Hitlers 1935-1939; scheiterte mit Kriegsbeginn 1939." style="border-color:var(--c5);color:var(--c5)">Appeasement-Politik</span>
+            <span class="vocab-pill" tabindex="0" data-def="Großmächte übergaben Sudetenland an Hitler – vergeblicher Versuch, Krieg zu verhindern." style="border-color:var(--c5);color:var(--c5)">Münchener Abkommen 1938</span>
+            <span class="vocab-pill" tabindex="0" data-def="Situation, in der zwei moralische Grundsätze kollidieren und keine gute Lösung bleibt." style="border-color:var(--c5);color:var(--c5)">Moralisches Dilemma</span>
+            <span class="vocab-pill" tabindex="0" data-def="Brit. Bomberbefehl 1942: gezielte Bombardierung dt. Zivilgebiete zur Erschütterung der Moral." style="border-color:var(--c5);color:var(--c5)">Area Bombing Directive</span>
+            <span class="vocab-pill" tabindex="0" data-def="Historisches Konzept: Welche Handlungsspielräume hatten Menschen in bestimmten Situationen?" style="border-color:var(--c5);color:var(--c5)">Agency-Konzept</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BLOCK 6: SHOA -->
+<div class="block" data-block="5">
+  <div class="bh" style="background:var(--c6b)">
+    <div class="bh-icon">🕯️</div>
+    <div class="bh-text">
+      <div class="btitle">Shoa – Biographisches Lernen, Täter &amp; Erinnerungskultur <span class="bepoche" style="color:var(--c6)">1933–1945 / Gegenwart</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(5)" aria-expanded="false" aria-controls="bs5">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Wie erinnert eine Gesellschaft das Unerinnerbare – und wen vergisst sie dabei?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs5">
+    <ul class="bs-list">
+      <li>Die Shoa war kein Naturereignis – sie wurde von Menschen geplant, organisiert und durchgeführt (Täter, Opfer, Zuschauer nach Hilberg).</li>
+      <li>Biographisches Lernen macht das Abstrakte konkret: Einzelschicksale wie Janusz Korczak oder Zalman Levinson machen die Dimension des Verbrechens fassbar.</li>
+      <li>Erinnerungskultur ist nicht neutral – wessen Geschichte erinnert wird, ist immer eine politische Entscheidung.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Shoa · Public History · Hilbergs Modell · Grauzone (Levi) · Widerstand · Biographisches Lernen · Erinnerungsgerechtigkeit</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c6b);color:var(--c6)">M23</div>
+        <div class="mc-title">Shoa oder Holocaust? Begriffe &amp; Public History</div>
+        <div class="mc-row"><span class="methchip"><span>💬</span>Diskussion</span><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Unterschied der Begriffe Shoa / Holocaust erklären und positionieren</div>
+          <div class="dp-ziel-item">Public History als Feld der Geschichtskultur einordnen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M25 Bio')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M25 Bio')">→ M25 Bio</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M28')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M28')">→ M28</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#shoa" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Hebräischer Begriff für die Vernichtung der europäischen Juden durch die Nationalsozialisten." style="border-color:var(--c6);color:var(--c6)">Shoa</span>
+            <span class="vocab-pill" tabindex="0" data-def="Griechisch-englischer Begriff für die Vernichtung der europäischen Juden." style="border-color:var(--c6);color:var(--c6)">Holocaust</span>
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtskultur im öffentlichen Raum: Film, Museen, Denkmäler, Social Media." style="border-color:var(--c6);color:var(--c6)">Public History</span>
+            <span class="vocab-pill" tabindex="0" data-def="Zwangsweise Verschleppung von Menschen; im NS aus Deutschland in Ghettos und Lager." style="border-color:var(--c6);color:var(--c6)">Deportation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c6b);color:var(--c6)">M25 Bio</div>
+        <div class="mc-title">Der letzte Brief – Zalman Levinson (9 Jahre)</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Biographie</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Biographisches Lernen als Zugang zu abstrakten Massenverbrechen erfahren</div>
+          <div class="dp-ziel-item">Emotionale Betroffenheit und historische Reflexion verbinden</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M26–M27')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M26–M27')">→ M26–M27</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#shoa" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Schlucht bei Kiew; Sept. 1941: Massaker an über 33.000 Jüdinnen und Juden in 2 Tagen." style="border-color:var(--c6);color:var(--c6)">Babyn Jar</span>
+            <span class="vocab-pill" tabindex="0" data-def="Didaktisches Prinzip: Einzelschicksale als Einstieg in abstrakte historische Prozesse." style="border-color:var(--c6);color:var(--c6)">Biographisches Lernen</span>
+            <span class="vocab-pill" tabindex="0" data-def="KZ und Ghetto in der Tschechoslowakei; als Vorzeigeprojekt und Durchgangslager genutzt." style="border-color:var(--c6);color:var(--c6)">Theresienstadt / Terezin</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Lager mit dem Ziel der systematischen Massentötung (Treblinka, Auschwitz u.a.)." style="border-color:var(--c6);color:var(--c6)">Vernichtungslager</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c6b);color:var(--c6)">M26–M27</div>
+        <div class="mc-title">Vier Menschenleben – Biographisches Lernen</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenbiographie</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Vier Biographien (Opfer, Täter, Zuschauer, Retter) miteinander vergleichen</div>
+          <div class="dp-ziel-item">Handlungsspielräume in der NS-Zeit erkennen und bewerten</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M28')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M28')">→ M28</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#shoa" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Polnisch-jüdischer Pädagoge; begleitete seine Waisenkinder 1942 in den Tod nach Treblinka." style="border-color:var(--c6);color:var(--c6)">Janusz Korczak (Treblinka)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Ukrainisch-jüdische Frau; ermordet bei den Massakern in Babyn Jar 1941." style="border-color:var(--c6);color:var(--c6)">Rosalia London (Babyn Jar)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Tatsächliche Möglichkeiten, die Menschen in einer Situation hatten, anders zu handeln." style="border-color:var(--c6);color:var(--c6)">Handlungsspielraum</span>
+            <span class="vocab-pill" tabindex="0" data-def="Didaktisches Prinzip: Einzelschicksale als Einstieg in abstrakte historische Prozesse." style="border-color:var(--c6);color:var(--c6)">Biographisches Lernen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c6b);color:var(--c6)">M28</div>
+        <div class="mc-title">Täter, Opfer, Zuschauer – Hilbergs Modell</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Hilbergs Drei-Gruppen-Modell anwenden und kritisch hinterfragen</div>
+          <div class="dp-ziel-item">Primo Levis Konzept der Grauzone verstehen und diskutieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M28.1')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M28.1')">→ M28.1</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M29')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M29')">→ M29</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#shoa" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="US-Historiker; klassifizierte Akteure der Shoah in drei Gruppen: Täter, Opfer, Zuschauer." style="border-color:var(--c6);color:var(--c6)">Raul Hilberg</span>
+            <span class="vocab-pill" tabindex="0" data-def="Levi: Moralische Ambivalenz zwischen Tätern und Opfern; keine klare Kategorisierung möglich." style="border-color:var(--c6);color:var(--c6)">Grauzone (Primo Levi)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Von Nazis eingesetzte jüdische Verwaltungsgremien in Ghettos; moralisch umstritten." style="border-color:var(--c6);color:var(--c6)">Judenräte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Tatsächliche Möglichkeiten, die Menschen in einer Situation hatten, anders zu handeln." style="border-color:var(--c6);color:var(--c6)">Handlungsspielraum</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Gegenwartsbezug">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c6b);color:var(--c6)">M25.1</div>
+        <div class="mc-title">Auf der Suche nach einer Definition: Widerstand</div>
+        <div class="mc-row"><span class="methchip"><span>💬</span>Diskussion</span><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-h">🔴 Gegenwartsbezug</span><span class="heute-chip">🔴 Zivilcourage heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Verschiedene Formen von Widerstand im NS definieren und vergleichen</div>
+          <div class="dp-ziel-item">Zivilcourage als Gegenwartswert aus historischer Erfahrung ableiten</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M30')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M30')">→ M30</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#shoa" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Handlungen gegen das NS-Regime; von innerer Ablehnung bis zu aktivem Umsturzversuch." style="border-color:var(--c6);color:var(--c6)">Widerstand</span>
+            <span class="vocab-pill" tabindex="0" data-def="Mutige Haltung einzelner Menschen gegen Ungerechtigkeit im Alltag." style="border-color:var(--c6);color:var(--c6)">Zivilcourage</span>
+            <span class="vocab-pill" tabindex="0" data-def="Jugendliche in NS-Deutschland, die Swing und amerikanischen Jazz als Protest hörten." style="border-color:var(--c6);color:var(--c6)">Swing-Jugend</span>
+            <span class="vocab-pill" tabindex="0" data-def="Widerstandsgruppe um Sophie und Hans Scholl; verteilte 1942/43 Flugblätter gegen das NS-Regime." style="border-color:var(--c6);color:var(--c6)">Weiße Rose</span>
+            <span class="vocab-pill" tabindex="0" data-def="Claus von Stauffenberg: Hauptorganisator des Attentats auf Hitler am 20. Juli 1944." style="border-color:var(--c6);color:var(--c6)">Stauffenberg</span>
+            <span class="vocab-pill" tabindex="0" data-def="Schreiner aus Schwaben; plante 1939 ein fast erfolgreiches Bombenattentat auf Hitler." style="border-color:var(--c6);color:var(--c6)">Georg Elser</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ===== J1/2 ÜBERGANG ===== -->
+<div class="jg-hd"><span class="jg-title" style="background:linear-gradient(90deg,var(--c7),var(--c8))">► J1/J2 ÜBERGANG &nbsp;·&nbsp; 1945 – Gegenwart</span></div>
+
+<!-- BLOCK 7: NACHKRIEG -->
+<div class="block" data-block="6">
+  <div class="bh" style="background:var(--c7b)">
+    <div class="bh-icon">🏚️</div>
+    <div class="bh-text">
+      <div class="btitle">Nachkriegszeit, NS-Kontinuitäten &amp; Globalgeschichte <span class="bepoche" style="color:var(--c7)">1945+</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(6)" aria-expanded="false" aria-controls="bs6">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Wer erinnert – und wen vergisst die Gesellschaft nach einem totalen Zusammenbruch?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs6">
+    <ul class="bs-list">
+      <li>Die BRD begann mit einer „Stunde Null" – aber personelle Kontinuitäten in Justiz, Verwaltung und Politik zeigten: Der Neuanfang war unvollständig.</li>
+      <li>Globale Perspektive: Kolonisierte Völker, die für Europa kämpften, wurden nach 1945 vergessen – Eurozentrismus in der Erinnerungskultur.</li>
+      <li>Entnazifizierung scheiterte weitgehend: Hans Globke, Gehlen-Organisation und andere NS-Akteure arbeiteten im neuen Staat weiter.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Entnazifizierung · Personelle Kontinuität · Stunde Null · Erinnerungsgerechtigkeit · Eurozentrismus · Potsdamer Abkommen</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c7b);color:var(--c7)">M26</div>
+        <div class="mc-title">Leben in Ruinen – Der Krieg ist vorbei</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Gesellschaftliche Lage in Deutschland Mai 1945 beschreiben</div>
+          <div class="dp-ziel-item">Mythos der „Stunde Null" kritisch hinterfragen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M30')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M30')">→ M30</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M32–M33')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M32–M33')">→ M32–M33</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nachkrieg" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Metapher für den Beginn eines Neuanfangs nach dem totalen Zusammenbruch Deutschlands 1945." style="border-color:var(--c7);color:var(--c7)">Stunde Null</span>
+            <span class="vocab-pill" tabindex="0" data-def="Alliierte zwangen Deutsche, KZ-Lager zu besichtigen, um das Ausmaß der Verbrechen zu konfrontieren." style="border-color:var(--c7);color:var(--c7)">Zwangsbesichtigung KZ</span>
+            <span class="vocab-pill" tabindex="0" data-def="Diskussion nach 1945: Wie viel Mitverantwortung trug die gesamte dt. Bevölkerung?" style="border-color:var(--c7);color:var(--c7)">Kollektivschuld-Debatte</span>
+            <span class="vocab-pill" tabindex="0" data-def="Karl Jaspers: Unterschied zwischen krimineller, politischer, moralischer und metaphysischer Schuld." style="border-color:var(--c7);color:var(--c7)">Schuldfrage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c7b);color:var(--c7)">M27</div>
+        <div class="mc-title">NS-Kontinuitäten in der frühen BRD</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">NS-Belastete in Schlüsselpositionen der frühen BRD benennen und einordnen</div>
+          <div class="dp-ziel-item">Entnazifizierung als gescheitertes Projekt bewerten</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M31')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M31')">→ M31</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M34–M36')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M34–M36')">→ M34–M36</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nachkrieg" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Alliiiertes Programm nach 1945 zur Entfernung von NS-Tätern aus öffentlichen Ämtern." style="border-color:var(--c7);color:var(--c7)">Entnazifizierung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Fortbestehen ehemaliger NS-Träger in Justiz, Verwaltung, Wirtschaft der frühen BRD." style="border-color:var(--c7);color:var(--c7)">Personelle Kontinuität</span>
+            <span class="vocab-pill" tabindex="0" data-def="Bundesnachrichtendienst: aufgebaut von Reinhard Gehlen und ehemaligen Nazi-Spionen." style="border-color:var(--c7);color:var(--c7)">BND – Gehlen-Organisation</span>
+            <span class="vocab-pill" tabindex="0" data-def="NS-Jurist und späterer Staatssekretär Adenauers; Symbol für Kontinuität von NS-Personal in der BRD." style="border-color:var(--c7);color:var(--c7)">Hans Globke</span>
+            <span class="vocab-pill" tabindex="0" data-def="Wie Institutionen ihre eigene Geschichte erinnern oder verdrängen." style="border-color:var(--c7);color:var(--c7)">Institutionelles Gedächtnis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Gegenwartsbezug">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c7b);color:var(--c7)">M28</div>
+        <div class="mc-title">Die Vergessenen! – Globalgeschichte des 2. WK</div>
+        <div class="mc-row"><span class="methchip"><span>📺</span>Film</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-h">🔴 Gegenwartsbezug</span><span class="heute-chip">🔴 Dekolonialisierung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Rolle kolonialer Soldaten im 2. WK benennen und würdigen</div>
+          <div class="dp-ziel-item">Eurozentrismus in der Erinnerungskultur erkennen und kritisieren</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M32–M33')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M32–M33')">→ M32–M33</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nachkrieg" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Afrik. Soldaten, die für europäische Kolonialmächte kämpften; nach 1945 oft diskriminiert." style="border-color:var(--c7);color:var(--c7)">Kolonialsoldaten</span>
+            <span class="vocab-pill" tabindex="0" data-def="Geschichtsschreibung, die außereuropäische Erfahrungen marginalisiert oder ignoriert." style="border-color:var(--c7);color:var(--c7)">Eurozentrische Geschichtsschreibung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Afrikanische Soldaten aus dem Senegal; kämpften für Frankreich in beiden Weltkriegen." style="border-color:var(--c7);color:var(--c7)">Tirailleurs senegalais</span>
+            <span class="vocab-pill" tabindex="0" data-def="Forderung: auch vergessene Opfergruppen in das kollektive Gedächtnis einzubeziehen." style="border-color:var(--c7);color:var(--c7)">Erinnerungsgerechtigkeit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c7b);color:var(--c7)">M30–M31</div>
+        <div class="mc-title">Potsdamer Konferenz – Die Stunde 0</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenspiel</span><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Potsdamer Abkommen und seine fünf Grundprinzipien benennen</div>
+          <div class="dp-ziel-item">Interessenkonflikte zwischen den Alliierten als Vorgeschichte des Kalten Kriegs verstehen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M34–M36')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M34–M36')">→ M34–M36</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#nachkrieg" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Vereinbarung der Siegermächte über Nachkriegsordnung Deutschlands: die 5 Ds." style="border-color:var(--c7);color:var(--c7)">Potsdamer Abkommen (1945)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Deutschland wurde 1945 in 4 Besatzungszonen (USA, UK, FR, SU) aufgeteilt." style="border-color:var(--c7);color:var(--c7)">Zonenaufteilung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Polnisch-deutsche Grenze nach 1945; umstritten bis zum 2+4-Vertrag 1990." style="border-color:var(--c7);color:var(--c7)">Oder-Neiße-Linie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Zwangsmigrationen der deutschen Bevölkerung aus Osteuropa nach 1945 (ca. 12-14 Mio.)." style="border-color:var(--c7);color:var(--c7)">Vertreibungen</span>
+            <span class="vocab-pill" tabindex="0" data-def="Sowjetische Besatzungszone 1945-1949; Ostdeutschland unter sowjetischer Kontrolle." style="border-color:var(--c7);color:var(--c7)">SBZ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== J2 ===== -->
+<div class="jg-hd"><span class="jg-title jg-j2">► JAHRGANGSSTUFE J2 &nbsp;·&nbsp; 1947 – 1990</span></div>
+
+<!-- BLOCK 8: OST-WEST -->
+<div class="block" data-block="7">
+  <div class="bh" style="background:var(--c8b)">
+    <div class="bh-icon">🌐</div>
+    <div class="bh-text">
+      <div class="btitle">Der Ost-West-Konflikt – Ideologie, Konfrontation &amp; Entspannung <span class="bepoche" style="color:var(--c8)">1947–1989</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(7)" aria-expanded="false" aria-controls="bs7">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Wie nah war die Welt an der totalen Vernichtung – und was hat sie aufgehalten?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs7">
+    <ul class="bs-list">
+      <li>Der Ost-West-Konflikt war ein ideologischer Kampf: Liberale Demokratie vs. Kommunismus – beide Seiten kämpften mit Propaganda und militärischer Drohung.</li>
+      <li>Berliner Blockade, Korea, Kuba: Der Kalte Krieg war nie „kalt" – an der Peripherie wurde heiß gekämpft.</li>
+      <li>Willy Brandts Ostpolitik zeigte: Entspannung durch Annäherung ist möglich – Wandel durch Dialog, nicht durch Konfrontation.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Containment · Truman-Doktrin · Marshallplan · Détente · Wandel durch Annäherung · KSZE</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Narrativkompetenz">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c8b);color:var(--c8)">M34–M36</div>
+        <div class="mc-title">SBZ-Entwicklung, Doppelte Staatsgründung &amp; Ideologie</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-n">📖 Narrativkompetenz</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Entwicklung der SBZ zur DDR und der Westzonen zur BRD vergleichend darstellen</div>
+          <div class="dp-ziel-item">Ideologische Unterschiede zwischen liberaler Demokratie und Kommunismus benennen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M37–M38')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M37–M38')">→ M37–M38</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#owk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Sowjetische Besatzungszone 1945-1949; Ostdeutschland unter sowjetischer Kontrolle." style="border-color:var(--c8);color:var(--c8)">SBZ</span>
+            <span class="vocab-pill" tabindex="0" data-def="Kadergruppe, die 1945 aus Moskau zurückkehrte, um die SBZ zu kontrollieren." style="border-color:var(--c8);color:var(--c8)">Gruppe Ulbricht</span>
+            <span class="vocab-pill" tabindex="0" data-def="Politische Ideologie: klassenloses Eigentum, Planwirtschaft; Grundlage des Sowjetsystems." style="border-color:var(--c8);color:var(--c8)">Kommunismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="Politische Ideologie: staatliche Kontrolle der Wirtschaft, soziale Gleichheit als Ziel." style="border-color:var(--c8);color:var(--c8)">Sozialismus</span>
+            <span class="vocab-pill" tabindex="0" data-def="Politisches System mit Gewaltenteilung, Grundrechten und regelmäßigen freien Wahlen." style="border-color:var(--c8);color:var(--c8)">Liberale Demokratie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Vereinbarung der Siegermächte über Nachkriegsordnung Deutschlands: die 5 Ds." style="border-color:var(--c8);color:var(--c8)">Potsdamer Abkommen (1945)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Urteilsbildung">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c8b);color:var(--c8)">M37–M38</div>
+        <div class="mc-title">Berliner Blockade, NATO &amp; Militärische Konfrontation</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-u">⚖️ Urteilsbildung</span><span class="heute-chip">🔴 NATO heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Berliner Luftbrücke als Symbol westlicher Entschlossenheit analysieren</div>
+          <div class="dp-ziel-item">NATO-Gründung und Warschauer Pakt als Folge des Kalten Kriegs einordnen</div>
+          <div class="dp-ziel-item">Gegenwartsbezug: NATO im Ukraine-Krieg 2022+</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M39')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M39')">→ M39</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M29')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M29')">→ M29</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#owk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="US-Außenpolitik 1947: Unterstützung freier Völker gegen kommunistische Bedrohung." style="border-color:var(--c8);color:var(--c8)">Truman-Doktrin</span>
+            <span class="vocab-pill" tabindex="0" data-def="US-Wirtschaftshilfeprogramm 1948 für Westeuropa; beschleunigte den Wiederaufbau." style="border-color:var(--c8);color:var(--c8)">Marshallplan</span>
+            <span class="vocab-pill" tabindex="0" data-def="US-Strategie: kommunistische Expansion einzudämmen (George Kennan, 1946)." style="border-color:var(--c8);color:var(--c8)">Containment-Politik</span>
+            <span class="vocab-pill" tabindex="0" data-def="1948/49: Westalliiierte versorgten West-Berlin per Luftbrücke während der Sowjetblockade." style="border-color:var(--c8);color:var(--c8)">Berliner Luftbrücke</span>
+            <span class="vocab-pill" tabindex="0" data-def="North Atlantic Treaty Organization: westliches Verteidigungsbündnis, gegründet 4.4.1949." style="border-color:var(--c8);color:var(--c8)">NATO (1949)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Östliches Militärbündnis unter sowjet. Führung als Gegenstück zur NATO." style="border-color:var(--c8);color:var(--c8)">Warschauer Pakt (1955)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Gegenwartsbezug">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c8b);color:var(--c8)">M39</div>
+        <div class="mc-title">Ostpolitik: Wandel durch Annäherung</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>💬</span>Diskussion</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-h">🔴 Gegenwartsbezug</span><span class="heute-chip">🔴 Ukraine-Parallele</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Brandts Konzept des „Wandels durch Annäherung" als Paradigmenwechsel einordnen</div>
+          <div class="dp-ziel-item">Bedeutung des Knuiefalls von Warschau als symbolische Geste erklären</div>
+          <div class="dp-ziel-item">Gegenwartsbezug: Scheitern des „Wandels durch Handel" gegenüber Russland</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M29')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M29')">→ M29</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M41')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M41')">→ M41</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#owk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Egon Bahrs Konzept 1963: Entspannungspolitik durch Kontakte mit dem Osten." style="border-color:var(--c8);color:var(--c8)">Wandel durch Annäherung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Willy Brandts Kniefall am Ehrenmal des Warschauer Ghettos; Symbol der Versöhnung." style="border-color:var(--c8);color:var(--c8)">Kniefall von Warschau (1970)</span>
+            <span class="vocab-pill" tabindex="0" data-def="DDR und BRD erkennen sich gegenseitig als Staaten an." style="border-color:var(--c8);color:var(--c8)">Grundlagenvertrag 1972</span>
+            <span class="vocab-pill" tabindex="0" data-def="Konferenz für Sicherheit und Zusammenarbeit in Europa; Menschenrechte als Maßstab." style="border-color:var(--c8);color:var(--c8)">KSZE Helsinki 1975</span>
+            <span class="vocab-pill" tabindex="0" data-def="Entspannungspolitik zwischen Ost und West in den 1970er Jahren." style="border-color:var(--c8);color:var(--c8)">Détente</span>
+            <span class="vocab-pill" tabindex="0" data-def="Parlamentarisches Instrument: Regierung wird durch Mehrheitsvotum im Bundestag gestürzt." style="border-color:var(--c8);color:var(--c8)">Misstrauensvotum</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Narrativkompetenz">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c8b);color:var(--c8)">M29</div>
+        <div class="mc-title">Unser Glossar: Der Ost-West-Konflikt</div>
+        <div class="mc-row"><span class="methchip"><span>📖</span>Glossar</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-n">📖 Narrativkompetenz</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Alle zentralen Begriffe des Kalten Krieges auf einen Blick sichern</div>
+          <div class="dp-ziel-item">Eigenes Klassenglossar erstellen und pflegen</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M41')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M41')">→ M41</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#owk" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Aufteilung der Welt in zwei politisch-militärische Lager (Ost/West) nach 1945." style="border-color:var(--c8);color:var(--c8)">Blockbildung</span>
+            <span class="vocab-pill" tabindex="0" data-def="Bewegung von Staaten, die keinem der beiden Blöcke angehören wollten." style="border-color:var(--c8);color:var(--c8)">Blockfreiheit</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gefährlichster Punkt des Kalten Krieges: Sowjet. Raketen auf Kuba; Kennedy vs. Chruschtschow." style="border-color:var(--c8);color:var(--c8)">Kuba-Krise 1962</span>
+            <span class="vocab-pill" tabindex="0" data-def="Erster heißer Krieg des Kalten Krieges; endete ohne Friedensvertrag." style="border-color:var(--c8);color:var(--c8)">Korea-Krieg 1950–53</span>
+            <span class="vocab-pill" tabindex="0" data-def="NATO-Kernprinzip: Angriff auf ein Mitglied gilt als Angriff auf alle." style="border-color:var(--c8);color:var(--c8)">Bündnisfall Artikel 5</span>
+            <span class="vocab-pill" tabindex="0" data-def="Sowjet. Gegenentwurf zur Truman-Doktrin: Welt in imperialistisches und sozialistisches Lager." style="border-color:var(--c8);color:var(--c8)">Zwei-Lager-Theorie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Gorbatschows Reformpolitik: Offenheit und Umstrukturierung; leitete den Zerfall der SU ein." style="border-color:var(--c8);color:var(--c8)">Glasnost und Perestroika</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BLOCK 9: DDR + WENDE -->
+<div class="block" data-block="8">
+  <div class="bh" style="background:var(--c9b)">
+    <div class="bh-icon">🗝️</div>
+    <div class="bh-text">
+      <div class="btitle">DDR, Wende &amp; Deutsche Einheit <span class="bepoche" style="color:var(--c9)">1949–1990</span>
+        <button class="block-summary-toggle" onclick="toggleSummary(8)" aria-expanded="false" aria-controls="bs8">▸ Epochen-Zusammenfassung</button>
+      </div>
+      <div class="bleitsatz">„Was hält eine Gesellschaft zusammen – und was lässt sie auseinanderfallen?"</div>
+    </div>
+  </div>
+  <div class="block-summary" id="bs8">
+    <ul class="bs-list">
+      <li>Die DDR war kein sozialistisches Utopia – sondern ein Überwachungsstaat, in dem Stasi und SED das Leben kontrollierten.</li>
+      <li>Die Friedliche Revolution 1989 zeigte: Bürgerliche Zivilcourage kann Geschichte machen – ohne Waffen und Gewalt.</li>
+      <li>Ost- und West-Erinnerungen an die DDR klaffen bis heute auseinander: Ostalgie vs. Unrechtsstaat-Narrativ.</li>
+    </ul>
+    <div class="bs-keywords">Schlüsselbegriffe: Stasi / MfS · Berliner Mauer · Friedliche Revolution · Mauerfall · Ostalgie · Zwei-plus-Vier-Vertrag</div>
+  </div>
+  <div class="mods">
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Quellenanalyse">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c9b);color:var(--c9)">M40</div>
+        <div class="mc-title">Berliner Mauer &amp; Leben in der DDR</div>
+        <div class="mc-row"><span class="methchip"><span>📄</span>Quellenarbeit</span><span class="methchip"><span>📺</span>Film</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-q">📄 Quellenanalyse</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Bau der Berliner Mauer (13.8.1961) und seine Folgen für Familien und Gesellschaft analysieren</div>
+          <div class="dp-ziel-item">Alltagsleben in der DDR: Zustimmung, Anpassung und stiller Widerstand</div>
+        </div>
+      <div class="mc-connections"><span class="conn-label">Verbunden mit</span><span class="conn-chip" tabindex="0" role="button" onclick="jumpToModule('M42')" onkeydown="if(event.key==='Enter'||event.key===' ')jumpToModule('M42')">→ M42</span><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ddr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Grenzanlage zwischen Ost- und West-Berlin; Symbol des Kalten Krieges." style="border-color:var(--c9);color:var(--c9)">Berliner Mauer (13.8.1961)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Ministerium für Staatssicherheit der DDR; Geheimpolizei mit ca. 90.000 hauptamtlichen Mitarbeitern." style="border-color:var(--c9);color:var(--c9)">Stasi / MfS</span>
+            <span class="vocab-pill" tabindex="0" data-def="Politisches System, das seine Bürger systematisch bespitzelt und kontrolliert." style="border-color:var(--c9);color:var(--c9)">Überwachungsstaat</span>
+            <span class="vocab-pill" tabindex="0" data-def="DDR-Bezeichnung für die Berliner Mauer; propagandistische Umdeutung." style="border-color:var(--c9);color:var(--c9)">Antifaschistischer Schutzwall</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc" onclick="toggleMod(this)" tabindex="0" onkeydown="if(event.key==='Enter')toggleMod(this)" aria-expanded="false" data-komp="Perspektivenwechsel">
+      <div class="mc-top">
+        <div class="mc-badge" style="background:var(--c9b);color:var(--c9)">M42</div>
+        <div class="mc-title">Das Ende der DDR – Vier Blickwinkel</div>
+        <div class="mc-row"><span class="methchip"><span>🎭</span>Rollenspiel</span><span class="methchip"><span>📺</span>Film</span></div>
+        <div class="mc-row" style="margin-top:4px"><span class="kompchip kb-p">🔄 Perspektivenwechsel</span><span class="heute-chip">🔴 Ost-West heute</span></div>
+      </div>
+      <div class="expand-hint" aria-hidden="true">▸ Ziele &amp; Fachbegriffe</div>
+      <div class="mc-detail">
+        <div class="dp-section"><div class="dp-label">Lernziele</div>
+          <div class="dp-ziel-item">Mauerfall und Wende aus vier Perspektiven (Bürger*in DDR, SED-Funktionär, Westdeutsche*r, Gorbatschow) darstellen</div>
+          <div class="dp-ziel-item">Gegenwartsbezug: Ostalgie und Ost-West-Gefälle als anhaltende gesellschaftliche Herausforderung</div>
+        </div>
+      <div class="mc-connections"><a class="kogland-link" href="https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts#ddr" target="_blank">🗺️ Kognitive Landkarte</a></div>
+        <div class="dp-section"><div class="dp-label">Fachbegriffe nach diesem Modul</div>
+          <div class="dp-vocab">
+            <span class="vocab-pill" tabindex="0" data-def="Massenproteste in der DDR, die ohne Gewalt zum Mauerfall führten." style="border-color:var(--c9);color:var(--c9)">Friedliche Revolution 1989</span>
+            <span class="vocab-pill" tabindex="0" data-def="Öffnung der Berliner Mauer am 9. November 1989; Symbol des Endes des Kalten Krieges." style="border-color:var(--c9);color:var(--c9)">Mauerfall (9.11.1989)</span>
+            <span class="vocab-pill" tabindex="0" data-def="Nostalgie für die DDR und das Alltagsleben in der sozialistischen Gesellschaft." style="border-color:var(--c9);color:var(--c9)">Ostalgie</span>
+            <span class="vocab-pill" tabindex="0" data-def="Wirtschaftliche und soziale Ungleichheiten zwischen alten und neuen Bundesländern nach 1990." style="border-color:var(--c9);color:var(--c9)">Ost-West-Gefälle</span>
+            <span class="vocab-pill" tabindex="0" data-def="Vertrag der zwei deutschen Staaten + 4 Siegermächte; ermöglichte die Deutsche Einheit." style="border-color:var(--c9);color:var(--c9)">Zwei-plus-Vier-Vertrag 1990</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- META: KOGNITIVE LANDKARTE -->
+<div class="meta-block">
+  <div class="meta-inner">
+    <div class="meta-icon">🗺️</div>
+    <div class="meta-body">
+      <div class="meta-title">Kognitive Landkarte des Geschichtsunterrichts</div>
+      <div class="meta-sub">Digitale Werkzeuge &amp; Links für den Kurs</div>
+      <div class="chips">
+        <span class="chip">Kognitive Landkarte</span>
+        <span class="chip">Wahl-O-Mat 1919</span>
+        <span class="chip">NS-Parteienübersicht</span>
+        <span class="chip">GitHub</span>
+      </div>
+    </div>
+  </div>
+  <div class="qr-section">
+    <div class="qr-item">
+      <div class="qr-box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=52x52&data=https://geschichtefuerdiegegenwart.github.io/kognitive-Landkarte-des-Geschichtsunterrichts" alt="QR Kognitive Landkarte" width="52" height="52"></div>
+      Kognitive Landkarte
+    </div>
+    <div class="qr-item">
+      <div class="qr-box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=52x52&data=https://geschichtefuerdiegegenwart.github.io/Wahl-O-Mat-1919" alt="QR Wahl-O-Mat" width="52" height="52"></div>
+      Wahl-O-Mat 1919
+    </div>
+    <div class="qr-item">
+      <div class="qr-box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=52x52&data=https://geschichtefuerdiegegenwart.github.io/NS-Parteien-uebersicht" alt="QR Parteien" width="52" height="52"></div>
+      NS-Parteienübersicht
+    </div>
+  </div>
+</div>
+
+<!-- PRINT VOCAB LIST -->
+<div class="print-vocab-list">
+  <div class="pv-title">Alphabetische Gesamtliste aller Fachbegriffe</div>
+  <div class="pv-grid" id="printVocabGrid"></div>
+</div>
+
+</div><!-- end view-main -->
+
+<!-- ==================== GLOSSARY VIEW ==================== -->
+<div class="view-glossary" id="viewGlossary">
+  <div style="max-width:1080px;margin:0 auto">
+    <h2 style="font-family:var(--font-d);font-size:18px;font-weight:800;margin-bottom:6px">📖 Alle Fachbegriffe – Alphabetisches Glossar</h2>
+    <div style="font-size:9px;color:var(--muted);margin-bottom:10px">182 Fachbegriffe aus 37 Modulen · Klicken Sie auf ein Modul-Badge, um direkt dorthin zu springen</div>
+    <input type="text" class="glossary-search" id="glossarySearch" placeholder="Begriff suchen..." oninput="filterGlossary(this.value)" aria-label="Glossar durchsuchen">
+    <div class="gl-alpha" id="glAlpha"></div>
+    <div id="glossaryContent"></div>
+  </div>
+</div>
+
+<!-- ==================== TOOLTIP ==================== -->
+<div class="tooltip-box" id="tooltipBox"></div>
+
+<!-- ==================== QUIZ MODAL ==================== -->
+<div class="modal-overlay" id="quizModal" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('quizModal')" aria-label="Quiz schließen">×</button>
+    <h2 id="quizTitle">🃏 Vokabel-Quiz</h2>
+    <div class="modal-sub">Testen Sie Ihr Wissen – klicken Sie auf „Aufdecken", dann bewerten Sie sich selbst.</div>
+    <div class="quiz-filter" id="quizFilter"></div>
+    <div class="quiz-card" id="quizCard"></div>
+  </div>
+</div>
+
+<!-- ==================== RED THREAD MODAL ==================== -->
+<div class="modal-overlay" id="rtModal" role="dialog" aria-modal="true" aria-labelledby="rtTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('rtModal')" aria-label="Roter Faden schließen">×</button>
+    <h2 id="rtTitle">🧵 Roter Faden</h2>
+    <div class="modal-sub">Inhaltliche Verbindungen zwischen Modulen – Geschichte ist kein Stückwerk.</div>
+    <div class="rt-chain-selector" id="rtSelector"></div>
+    <div id="rtContent"></div>
+  </div>
+</div>
+
+<!-- ==================== TEACHER MODAL ==================== -->
+<div class="modal-overlay" id="teacherModal" role="dialog" aria-modal="true" aria-labelledby="teacherTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('teacherModal')" aria-label="Lehrkraft-Modus schließen">×</button>
+    <h2 id="teacherTitle">🔐 Lehrkraft-Modus</h2>
+    <div class="modal-sub" id="teacherStatus">Passwort eingeben, um den Bearbeitungsmodus freizuschalten.</div>
+    <div id="teacherLogin" style="margin-top:12px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" id="teacherPw" class="tc-input" placeholder="Passwort..." style="flex:1" onkeydown="if(event.key==='Enter')teacherLogin()">
+        <button class="tc-save-btn" onclick="teacherLogin()">Einloggen</button>
+      </div>
+      <div style="font-size:8.5px;color:var(--muted);margin-top:6px">Standard-Passwort: <code>Walter2024</code> — bitte nach der ersten Anmeldung ändern.</div>
+    </div>
+    <div id="teacherControls" style="display:none">
+      <div class="teacher-controls">
+        <div class="tc-section">
+          <div class="tc-label">Kursinformationen</div>
+          <div class="tc-row"><label>Kursname:</label><input class="tc-input" id="tc-kurs" placeholder="WM GGK · SGG"></div>
+          <div class="tc-row"><label>Lehrkraft:</label><input class="tc-input" id="tc-lehrer" placeholder="Walter"></div>
+          <div class="tc-row"><label>Schuljahr:</label><input class="tc-input" id="tc-jahr" placeholder="2025/26"></div>
+        </div>
+        <div class="tc-section">
+          <div class="tc-label">Fortschritt zurücksetzen</div>
+          <button class="tc-reset-btn" onclick="resetProgress()">⚠️ Fortschritt aller Module zurücksetzen</button>
+        </div>
+        <div class="tc-section">
+          <div class="tc-label">Passwort ändern</div>
+          <div class="tc-row"><label>Neues PW:</label><input type="password" class="tc-input" id="tc-pw-new" placeholder="Neues Passwort..."></div>
+          <button class="tc-save-btn" onclick="changePassword()">Passwort ändern</button>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="tc-save-btn" onclick="saveTeacherSettings()">💾 Einstellungen speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const MODULES = [];
+document.querySelectorAll('.mc').forEach(mc=>{
+  const badge = mc.querySelector('.mc-badge')?.textContent?.trim()||'';
+  const title = mc.querySelector('.mc-title')?.textContent?.trim()||'';
+  const komp = mc.dataset.komp||'';
+  const pills = [...mc.querySelectorAll('.vocab-pill')].map(p=>({term:p.textContent.trim(),def:p.dataset.def||''}));
+  const goals = [...mc.querySelectorAll('.dp-ziel-item')].map(g=>g.textContent.trim());
+  const blockEl = mc.closest('.block');
+  const blockIdx = blockEl ? parseInt(blockEl.dataset.block) : 0;
+  MODULES.push({badge,title,komp,pills,goals,blockIdx,el:mc});
+});
+
+const ALL_PILLS = [];
+MODULES.forEach(m=>m.pills.forEach(p=>ALL_PILLS.push({...p,badge:m.badge,blockIdx:m.blockIdx})));
+
+const EPOCH_COLORS = ['--c1','--c2','--c3','--c4','--c5','--c6','--c7','--c8','--c9'];
+
+// ── PROGRESS ──
+const TOTAL = MODULES.length;
+function loadProgress(){return JSON.parse(localStorage.getItem('hist-progress')||'{}');}
+function saveProgress(p){localStorage.setItem('hist-progress',JSON.stringify(p));}
+
+function buildProgressDots(){
+  const wrap = document.getElementById('progressDots');
+  const prog = loadProgress();
+  wrap.innerHTML='';
+  MODULES.forEach((m,i)=>{
+    const d = document.createElement('div');
+    d.className='pdot'+(prog[m.badge]?' done':'');
+    d.textContent=m.badge.replace('M','').substring(0,3);
+    d.title=m.badge+': '+m.title;
+    d.tabIndex=0;
+    d.setAttribute('aria-label',(prog[m.badge]?'Abgeschlossen: ':'Nicht abgeschlossen: ')+m.badge);
+    d.setAttribute('role','checkbox');
+    d.setAttribute('aria-checked',prog[m.badge]?'true':'false');
+    d.onclick=()=>toggleProgress(m.badge,d);
+    d.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')toggleProgress(m.badge,d);};
+    wrap.appendChild(d);
+  });
+}
+
+function toggleProgress(badge,dot){
+  const p=loadProgress();
+  p[badge]=!p[badge];
+  if(!p[badge])delete p[badge];
+  saveProgress(p);
+  dot.classList.toggle('done');
+  dot.setAttribute('aria-checked',p[badge]?'true':'false');
+}
+
+function resetProgress(){
+  if(confirm('Fortschritt aller Module wirklich zurücksetzen?')){
+    localStorage.removeItem('hist-progress');
+    buildProgressDots();
+  }
+}
+
+// ── MODULE TOGGLE ──
+function toggleMod(mc){
+  const isOpen=mc.classList.contains('open');
+  mc.classList.toggle('open',!isOpen);
+  mc.setAttribute('aria-expanded',!isOpen);
+  const hint=mc.querySelector('.expand-hint');
+  if(hint) hint.textContent=isOpen?'▸ Ziele & Fachbegriffe':'▾ Schließen';
+}
+function openAll(){document.querySelectorAll('.mc').forEach(mc=>{mc.classList.add('open');mc.setAttribute('aria-expanded','true');const h=mc.querySelector('.expand-hint');if(h)h.textContent='▾ Schließen';});}
+function closeAll(){document.querySelectorAll('.mc').forEach(mc=>{mc.classList.remove('open');mc.setAttribute('aria-expanded','false');const h=mc.querySelector('.expand-hint');if(h)h.textContent='▸ Ziele & Fachbegriffe';});}
+
+// ── BLOCK SUMMARY ──
+function toggleSummary(idx){
+  const el=document.getElementById('bs'+idx);
+  const btn=el.previousElementSibling;
+  const isOpen=el.classList.contains('open');
+  el.classList.toggle('open',!isOpen);
+  if(btn){btn.textContent=isOpen?'▸ Epochen-Zusammenfassung':'▾ Zusammenfassung schließen';btn.setAttribute('aria-expanded',!isOpen);}
+}
+
+// ── KOMPETENZ FILTER ──
+let activeFilters=new Set();
+function filterKomp(kb,komp){
+  if(activeFilters.size===0){
+    // First click: activate single filter
+    activeFilters.add(komp);
+    document.querySelectorAll('.kb[onclick]').forEach(k=>{
+      k.classList.toggle('filtered-off',!k.getAttribute('onclick').includes(komp.split(' ')[0]));
+    });
+  } else if(activeFilters.has(komp)){
+    activeFilters.delete(komp);
+    if(activeFilters.size===0){resetFilter();return;}
+    kb.classList.add('filtered-off');
+  } else {
+    activeFilters.add(komp);
+    kb.classList.remove('filtered-off');
+  }
+  applyKompFilter();
+}
+function applyKompFilter(){
+  if(activeFilters.size===0){document.querySelectorAll('.mc,.block').forEach(e=>e.classList.remove('kompetenz-hidden'));return;}
+  document.querySelectorAll('.mc').forEach(mc=>{
+    const k=mc.dataset.komp||'';
+    mc.classList.toggle('kompetenz-hidden',!activeFilters.has(k));
+  });
+  document.querySelectorAll('.block').forEach(block=>{
+    const vis=[...block.querySelectorAll('.mc')].some(m=>!m.classList.contains('kompetenz-hidden'));
+    block.classList.toggle('kompetenz-hidden',!vis);
+  });
+}
+function resetFilter(){
+  activeFilters.clear();
+  document.querySelectorAll('.kb').forEach(k=>k.classList.remove('filtered-off'));
+  document.querySelectorAll('.mc,.block').forEach(e=>e.classList.remove('kompetenz-hidden'));
+}
+
+// ── SEARCH ──
+function handleSearch(val){
+  const res=document.getElementById('searchResults');
+  if(!val||val.length<2){res.classList.remove('visible');return;}
+  const q=val.toLowerCase();
+  const matches=ALL_PILLS.filter(p=>p.term.toLowerCase().includes(q)||(p.def&&p.def.toLowerCase().includes(q))).slice(0,12);
+  if(!matches.length){res.classList.remove('visible');return;}
+  const color=`var(${EPOCH_COLORS[0]})`;
+  res.innerHTML=matches.map(p=>{
+    const c=`var(${EPOCH_COLORS[p.blockIdx]||EPOCH_COLORS[0]})`;
+    const hi=t=>t.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>`<mark class="sr-highlight">${m}</mark>`);
+    return `<div class="sr-item" role="option" tabindex="0" onclick="jumpToModule('${p.badge}')" onkeydown="if(event.key==='Enter')jumpToModule('${p.badge}')">
+      <span class="sr-badge" style="background:${c}1a;color:${c}">${p.badge}</span>
+      <div><div class="sr-term">${hi(p.term)}</div>${p.def?`<div class="sr-def">${hi(p.def.substring(0,100))}${p.def.length>100?'…':''}</div>`:''}</div>
+    </div>`;
+  }).join('');
+  res.classList.add('visible');
+}
+function closeSearch(){document.getElementById('searchResults').classList.remove('visible');}
+function jumpToModule(badge){
+  closeSearch();document.getElementById('searchInput').value='';
+  const mc=MODULES.find(m=>m.badge===badge);
+  if(!mc)return;
+  if(!mc.el.classList.contains('open'))toggleMod(mc.el);
+  mc.el.scrollIntoView({behavior:'smooth',block:'center'});
+  mc.el.style.outline='3px solid var(--c2)';
+  setTimeout(()=>mc.el.style.outline='',2000);
+}
+
+// ── TOOLTIP ──
+const tooltip=document.getElementById('tooltipBox');
+document.addEventListener('pointermove',e=>{
+  const pill=e.target.closest('.vocab-pill[data-def]');
+  if(pill&&pill.dataset.def){
+    tooltip.textContent=pill.dataset.def;
+    tooltip.classList.add('visible');
+    tooltip.style.left=(e.clientX+12)+'px';
+    tooltip.style.top=(e.clientY-40)+'px';
+  } else {tooltip.classList.remove('visible');}
+});
+document.addEventListener('focusin',e=>{
+  const pill=e.target.closest('.vocab-pill[data-def]');
+  if(pill&&pill.dataset.def){
+    const r=pill.getBoundingClientRect();
+    tooltip.textContent=pill.dataset.def;
+    tooltip.classList.add('visible');
+    tooltip.style.left=r.left+'px';
+    tooltip.style.top=(r.bottom+4)+'px';
+  }
+});
+document.addEventListener('focusout',()=>tooltip.classList.remove('visible'));
+
+// ── QUIZ ──
+let quizPool=[], quizIdx=0, quizScore={ok:0,miss:0}, quizShown=false, quizFilter='all';
+
+function openQuiz(){
+  buildQuizFilter();
+  buildQuizPool();
+  renderQuizCard();
+  document.getElementById('quizModal').classList.add('open');
+}
+
+function buildQuizFilter(){
+  const f=document.getElementById('quizFilter');
+  const komps=['all',...new Set(MODULES.map(m=>m.komp).filter(Boolean))];
+  f.innerHTML=komps.map(k=>`<span class="qf-chip${quizFilter===k?' active':''}" onclick="setQuizFilter('${k}')">${k==='all'?'Alle Module':k}</span>`).join('');
+}
+
+function setQuizFilter(k){
+  quizFilter=k;buildQuizFilter();buildQuizPool();renderQuizCard();
+}
+
+function buildQuizPool(){
+  let pool=ALL_PILLS.filter(p=>p.def);
+  if(quizFilter!=='all'){
+    const badges=MODULES.filter(m=>m.komp===quizFilter).map(m=>m.badge);
+    pool=pool.filter(p=>badges.includes(p.badge));
+  }
+  quizPool=pool.sort(()=>Math.random()-.5);
+  quizIdx=0;quizScore={ok:0,miss:0};quizShown=false;
+}
+
+function renderQuizCard(){
+  const card=document.getElementById('quizCard');
+  if(!quizPool.length){card.innerHTML='<div style="color:var(--muted);font-size:10px">Keine Fachbegriffe für diesen Filter gefunden.</div>';return;}
+  if(quizIdx>=quizPool.length){
+    card.innerHTML=`<div style="text-align:center;padding:16px">
+      <div style="font-size:24px;margin-bottom:8px">🎉</div>
+      <div style="font-family:var(--font-d);font-size:16px;font-weight:800">Quiz abgeschlossen!</div>
+      <div class="quiz-stats" style="margin-top:8px">✅ ${quizScore.ok} gewusst &nbsp;·&nbsp; ❌ ${quizScore.miss} nicht gewusst &nbsp;·&nbsp; 📊 ${Math.round(quizScore.ok/(quizPool.length)*100)}%</div>
+      <div class="quiz-actions" style="margin-top:12px"><button class="q-btn q-btn-next" onclick="buildQuizPool();renderQuizCard()">🔄 Nochmal</button></div>
+    </div>`;return;
+  }
+  const p=quizPool[quizIdx];
+  quizShown=false;
+  const c=`var(${EPOCH_COLORS[p.blockIdx]||EPOCH_COLORS[0]})`;
+  card.innerHTML=`
+    <div class="quiz-progress">${quizIdx+1} / ${quizPool.length} &nbsp;·&nbsp; ✅ ${quizScore.ok} &nbsp; ❌ ${quizScore.miss}</div>
+    <div class="quiz-term" style="color:${c}">${p.term}</div>
+    <div class="quiz-modul" style="color:${c}">Modul ${p.badge}</div>
+    <div class="quiz-def" id="quizDef">${p.def}</div>
+    <div class="quiz-actions" id="quizActions">
+      <button class="q-btn q-btn-show" onclick="showAnswer()">👁 Aufdecken</button>
+    </div>`;
+}
+
+function showAnswer(){
+  document.getElementById('quizDef').classList.add('visible');
+  quizShown=true;
+  document.getElementById('quizActions').innerHTML=`
+    <button class="q-btn q-btn-ok" onclick="quizScore.ok++;quizIdx++;renderQuizCard()">✅ Gewusst</button>
+    <button class="q-btn q-btn-miss" onclick="quizScore.miss++;quizIdx++;renderQuizCard()">❌ Nochmal</button>`;
+}
+
+// ── RED THREAD ──
+const RED_THREADS = [
+  {label:'Eskalation → Dolchstoßlegende', color:'var(--c1)', nodes:[
+    {badge:'M2',title:'Bündnissysteme & Kriegsausbruch',color:'var(--c1)',arrow:'Bündniszwang schafft Versailles-Trauma'},
+    {badge:'M7',title:'Versailler Vertrag aus dt. Perspektive',color:'var(--c3)',arrow:'Demütigung nährt Dolchstoßmythos'},
+    {badge:'M8.1',title:'Krisennarrative der WR',color:'var(--c4)',arrow:'Narrative fördern NSDAP-Aufstieg'},
+    {badge:'M15-M21',title:'NS-Machtergreifung',color:'var(--c5)',arrow:''},
+  ]},
+  {label:'Standortgebundenheit → heute', color:'var(--c2)', nodes:[
+    {badge:'M1 Theorie',title:'Standortgebundenheit – Genozid',color:'var(--c1)',arrow:'Theorie auf heutige Narrative anwenden'},
+    {badge:'M8',title:'Kollektives Gedächtnis',color:'var(--c4)',arrow:'Wer kontrolliert, was erinnert wird?'},
+    {badge:'M22.1',title:'NS-Ideologie vs. AfD',color:'var(--c5)',arrow:'Historischer Transfer in die Gegenwart'},
+    {badge:'M28.1',title:'Widerstand & Zivilcourage',color:'var(--c6)',arrow:''},
+  ]},
+  {label:'Demokratie scheitert – und überlebt', color:'var(--c3)', nodes:[
+    {badge:'M5',title:'Doppelte Ausrufung der Republik',color:'var(--c2)',arrow:'Fragiler Beginn ohne Demokratiekultur'},
+    {badge:'M9',title:'Wahlen 1919 – Wahl-O-Mat',color:'var(--c4)',arrow:'Milieustruktur prägt Demokratiefähigkeit'},
+    {badge:'M15-M21',title:'Demokratieabbau 1933-34',color:'var(--c5)',arrow:'Schrittweiser Abbau von innen heraus'},
+    {badge:'M42',title:'Friedliche Revolution 1989',color:'var(--c9)',arrow:''},
+  ]},
+  {label:'Erinnerungskultur & Gerechtigkeit', color:'var(--c4)', nodes:[
+    {badge:'M8',title:'Theorie: Kollektives Gedächtnis',color:'var(--c4)',arrow:'Gedächtnis ist politisch'},
+    {badge:'M25',title:'Shoa – Begriffe & Public History',color:'var(--c6)',arrow:'Öffentliche Erinnerung als Kampf'},
+    {badge:'M31',title:'Die Vergessenen – Globalgeschichte',color:'var(--c7)',arrow:'Eurozentrismus vergisst Opfer'},
+    {badge:'M30',title:'NS-Kontinuitäten BRD',color:'var(--c7)',arrow:''},
+  ]},
+];
+
+function openRedThread(){
+  const sel=document.getElementById('rtSelector');
+  sel.innerHTML=RED_THREADS.map((rt,i)=>`<button class="rt-cs-btn${i===0?' active':''}" onclick="showRedThread(${i},this)" style="border-color:${rt.color};${i===0?'background:'+rt.color+';color:#fff;':''}">${rt.label}</button>`).join('');
+  showRedThread(0);
+  document.getElementById('rtModal').classList.add('open');
+}
+
+function showRedThread(idx,btn){
+  if(btn){
+    document.querySelectorAll('.rt-cs-btn').forEach(b=>{b.classList.remove('active');b.style.background='';b.style.color='';});
+    btn.classList.add('active');
+    btn.style.background=RED_THREADS[idx].color;
+    btn.style.color='#fff';
+  }
+  const rt=RED_THREADS[idx];
+  const c=document.getElementById('rtContent');
+  c.innerHTML=`<div class="rt-wrap">${rt.nodes.map((n,ni)=>`
+    <div class="rt-node" style="border-color:${n.color}" onclick="closeModal('rtModal');jumpToModule('${n.badge}')">
+      <div class="rt-badge" style="color:${n.color}">${n.badge}</div>
+      <div class="rt-title">${n.title}</div>
+    </div>
+    ${ni<rt.nodes.length-1?`<div class="rt-arrow">↓</div><div class="rt-arrow-label">${n.arrow}</div>`:''}
+  `).join('')}</div>`;
+}
+
+// ── TEACHER MODE ──
+const DEFAULT_PW='Walter2024';
+function openTeacherMode(){document.getElementById('teacherModal').classList.add('open');}
+function teacherLogin(){
+  const pw=document.getElementById('teacherPw').value;
+  const stored=localStorage.getItem('hist-pw')||DEFAULT_PW;
+  if(pw===stored){
+    document.getElementById('teacherLogin').style.display='none';
+    document.getElementById('teacherControls').style.display='block';
+    document.getElementById('teacherStatus').textContent='✅ Angemeldet als Lehrkraft.';
+    loadTeacherSettings();
+  } else {
+    document.getElementById('teacherStatus').textContent='❌ Falsches Passwort.';
+    document.getElementById('teacherStatus').style.color='var(--today)';
+  }
+}
+function loadTeacherSettings(){
+  const s=JSON.parse(localStorage.getItem('hist-teacher-settings')||'{}');
+  if(s.kurs)document.getElementById('tc-kurs').value=s.kurs;
+  if(s.lehrer)document.getElementById('tc-lehrer').value=s.lehrer;
+  if(s.jahr)document.getElementById('tc-jahr').value=s.jahr;
+}
+function saveTeacherSettings(){
+  const s={kurs:document.getElementById('tc-kurs').value,lehrer:document.getElementById('tc-lehrer').value,jahr:document.getElementById('tc-jahr').value};
+  localStorage.setItem('hist-teacher-settings',JSON.stringify(s));
+  alert('Einstellungen gespeichert!');
+}
+function changePassword(){
+  const np=document.getElementById('tc-pw-new').value;
+  if(np.length<6){alert('Passwort muss mindestens 6 Zeichen haben.');return;}
+  localStorage.setItem('hist-pw',np);
+  alert('Passwort geändert!');
+}
+
+// ── MODAL HELPERS ──
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+
+// ── VIEW SWITCHER ──
+function setView(mode){
+  const main=document.getElementById('viewMain');
+  const gloss=document.getElementById('viewGlossary');
+  const btns={digital:document.getElementById('btn-digital'),print:document.getElementById('btn-print'),glossary:document.getElementById('btn-glossary')};
+  Object.values(btns).forEach(b=>b?.classList.remove('active'));
+  if(mode==='glossary'){
+    main.classList.add('hidden');gloss.classList.add('open');btns.glossary?.classList.add('active');
+    buildGlossary();
+  } else {
+    gloss.classList.remove('open');main.classList.remove('hidden');
+    if(mode==='print'){
+      document.body.classList.add('print-mode');btns.print?.classList.add('active');
+      buildPrintVocab();
+    } else {
+      document.body.classList.remove('print-mode');btns.digital?.classList.add('active');
+    }
+  }
+}
+
+// ── GLOSSARY ──
+function buildGlossary(){
+  const content=document.getElementById('glossaryContent');
+  if(content.children.length>0)return;
+  // Group by first letter
+  const byLetter={};
+  ALL_PILLS.forEach(p=>{
+    const letter=p.term[0].toUpperCase();
+    if(!byLetter[letter])byLetter[letter]=[];
+    byLetter[letter].push(p);
+  });
+  const letters=Object.keys(byLetter).sort();
+  // Build alpha nav
+  const alpha=document.getElementById('glAlpha');
+  alpha.innerHTML=letters.map(l=>`<button class="gl-alpha-btn" onclick="scrollToLetter('${l}')">${l}</button>`).join('');
+  // Build content
+  content.innerHTML=letters.map(l=>`
+    <div class="gl-letter-group" id="gl-${l}">
+      <div class="gl-letter">${l}</div>
+      ${byLetter[l].sort((a,b)=>a.term.localeCompare(b.term,'de')).map(p=>{
+        const c=`var(${EPOCH_COLORS[p.blockIdx]||EPOCH_COLORS[0]})`;
+        return `<div class="gl-item">
+          <span class="gl-item-term">${p.term}</span>
+          <span class="gl-item-badge" style="background:${c}1a;color:${c}">${p.badge}</span>
+          <span class="gl-item-def">${p.def||''}</span>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+function scrollToLetter(l){
+  const el=document.getElementById('gl-'+l);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.gl-alpha-btn').forEach(b=>b.classList.toggle('active',b.textContent===l));
+}
+
+function filterGlossary(val){
+  const q=val.toLowerCase();
+  document.querySelectorAll('.gl-item').forEach(item=>{
+    const text=item.textContent.toLowerCase();
+    item.classList.toggle('gl-hidden',q.length>1&&!text.includes(q));
+  });
+  document.querySelectorAll('.gl-letter-group').forEach(g=>{
+    const visible=[...g.querySelectorAll('.gl-item')].some(i=>!i.classList.contains('gl-hidden'));
+    g.style.display=visible?'':'none';
+  });
+}
+
+// ── PRINT VOCAB ──
+function buildPrintVocab(){
+  const grid=document.getElementById('printVocabGrid');
+  if(grid.children.length>0)return;
+  const sorted=[...ALL_PILLS].sort((a,b)=>a.term.localeCompare(b.term,'de'));
+  grid.innerHTML=sorted.map(p=>`<div class="pv-item">
+    <div class="pv-term">${p.term} <span class="pv-mod">(${p.badge})</span></div>
+    ${p.def?`<div class="pv-def">${p.def}</div>`:''}
+  </div>`).join('');
+}
+
+// ── INIT ──
+buildProgressDots();
+
+// ── DARK MODE ──
+function toggleDark(){
+  const on = document.body.classList.toggle('dark');
+  localStorage.setItem('hist-dark', on ? '1' : '0');
+  const btn = document.getElementById('btn-dark');
+  if(btn) btn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+  // Update theme-color meta
+  const meta = document.getElementById('themeColor');
+  if(meta) meta.content = on ? '#1a1917' : '#01696f';
+}
+// Restore dark mode preference
+(function(){
+  if(localStorage.getItem('hist-dark')==='1'){
+    document.body.classList.add('dark');
+    const btn = document.getElementById('btn-dark');
+    if(btn) btn.textContent = '☀️ Light Mode';
+  }
+})();
+
+// ── SERVICE WORKER (PWA) ──
+if('serviceWorker' in navigator){
+  const SW_CODE = `
+const CACHE = 'gfdg-v6';
+const ASSETS = [location.href];
+self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))));
+self.addEventListener('fetch', e => e.respondWith(
+  caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+    const clone = res.clone();
+    caches.open(CACHE).then(cache => cache.put(e.request, clone));
+    return res;
+  }).catch(() => caches.match(e.request)))
+));
+self.addEventListener('activate', e => e.waitUntil(
+  caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+));
+`;
+  const blob = new Blob([SW_CODE], {type:'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+</script>
+</body>
+</html>
